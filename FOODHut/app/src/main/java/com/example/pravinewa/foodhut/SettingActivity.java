@@ -1,6 +1,11 @@
 package com.example.pravinewa.foodhut;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -60,6 +65,7 @@ public class SettingActivity extends AppCompatActivity {
     FirebaseUser firebaseUser;
 
     ProgressBar progressBar;
+    Boolean NetworkStatus = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -95,6 +101,12 @@ public class SettingActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
+
+        if (!isNetworkConnected(SettingActivity.this)) {
+            NetworkStatus = false;
+        } else {
+            NetworkStatus = true;
+        }
 
         progressBar = (ProgressBar) findViewById(R.id.progressBarSetting);
 //        show_password_old = findViewById(R.id.password_show_old);
@@ -205,7 +217,11 @@ public class SettingActivity extends AppCompatActivity {
         accountBut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openAccountActivity();
+                if(NetworkStatus){
+                    openAccountActivity();
+                }else{
+                    buildDialog(SettingActivity.this).show();
+                }
             }
         });
 
@@ -221,7 +237,11 @@ public class SettingActivity extends AppCompatActivity {
         signInOutBut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openSignInOut();
+                if(NetworkStatus){
+                    openSignInOut();
+                }else{
+                    buildDialog(SettingActivity.this).show();
+                }
             }
         });
 
@@ -412,6 +432,39 @@ public class SettingActivity extends AppCompatActivity {
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         startActivity(i);
     }
+
+    public boolean isNetworkConnected(Context context) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+
+        if (networkInfo != null && networkInfo.isConnectedOrConnecting()) {
+            android.net.NetworkInfo wifi = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+            android.net.NetworkInfo mobile = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+
+            if ((mobile != null && mobile.isConnectedOrConnecting()) || (wifi != null && wifi.isConnectedOrConnecting()))
+                return true;
+            else return false;
+
+        } else {
+            return false;
+        }
+    }
+
+    public AlertDialog.Builder buildDialog(Context context) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("No Internet Connection");
+        builder.setCancelable(true);
+        builder.setMessage("You need to have Mobile data or Wifi to Access this.");
+
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        return builder;
+    }
+
 
     @Override
     public void onBackPressed() {

@@ -1,8 +1,13 @@
 package com.example.pravinewa.foodhut;
 
 import android.app.Dialog;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Vibrator;
@@ -86,6 +91,7 @@ public class HomeActivity extends AppCompatActivity {
     CoordinatorLayout homeId;
 
     String layouts = "grid";
+    Boolean NetworkStatus = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,9 +130,16 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         homeId = (CoordinatorLayout) findViewById(R.id.homeView);
 
+        if (!isNetworkConnected(HomeActivity.this)) {
+            NetworkStatus = false;
+            buildDialog(HomeActivity.this).show();
+        } else {
+            NetworkStatus = true;
+        }
+
         firebaseAuth = FirebaseAuth.getInstance();
         databaseReference = FirebaseDatabase.getInstance().getReference().child("Post");
-        mUser =FirebaseAuth.getInstance().getCurrentUser();
+        mUser = FirebaseAuth.getInstance().getCurrentUser();
         databaseReference.keepSynced(false);
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.refreshHome);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -181,9 +194,10 @@ public class HomeActivity extends AppCompatActivity {
                         viewPost();
                         onResume();
                         break;
-                    case 2: recyclerOptions = new FirebaseRecyclerOptions.Builder<Food>()
-                            .setQuery(databaseReference.orderByChild("itemPrice").startAt(1), Food.class).build();
-                            viewPostPrice();
+                    case 2:
+                        recyclerOptions = new FirebaseRecyclerOptions.Builder<Food>()
+                                .setQuery(databaseReference.orderByChild("itemPrice").startAt(1), Food.class).build();
+                        viewPostPrice();
                         onResume();
                         break;
                 }
@@ -196,18 +210,20 @@ public class HomeActivity extends AppCompatActivity {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(mUser != null && mUser.isEmailVerified())
-                {
-                    openAddFoodActivity();
+                if (NetworkStatus) {
+                    if (mUser != null && mUser.isEmailVerified()) {
+                        openAddFoodActivity();
 
+                    } else {
+                        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                        vibrator.vibrate(20);
+                        startActivity(intent);
+                        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                    }
+                } else {
+                    buildDialog(HomeActivity.this).show();
                 }
-                else
-                {
-                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                    vibrator.vibrate(20);
-                    startActivity(intent);
-                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-                }
+
             }
         });
 
@@ -284,13 +300,9 @@ public class HomeActivity extends AppCompatActivity {
         viewPostRecent();
 
 
-
-
-
-
     }
-    public void viewPostRecent()
-    {
+
+    public void viewPostRecent() {
 
 
         recyclerAdapter = new FirebaseRecyclerAdapter<Food, FoodViewHolder>(recyclerOptions) {
@@ -303,6 +315,7 @@ public class HomeActivity extends AppCompatActivity {
                     public void onSuccess() {
 
                     }
+
                     @Override
                     public void onError(Exception e) {
                         Toast.makeText(getApplicationContext(), "Error on load image", Toast.LENGTH_SHORT).show();
@@ -335,23 +348,19 @@ public class HomeActivity extends AppCompatActivity {
                 String current_day = (Character.toString(saveCurrentDate.charAt(8))).concat(Character.toString(saveCurrentDate.charAt(9)));
                 int c_day = Integer.parseInt(current_day);
                 // Automatic Delete
-                if(e_year == c_year && e_month == c_month && e_day == c_day)
-                {
+                if (e_year == c_year && e_month == c_month && e_day == c_day) {
 
 
                     holder.foodExpiryDate.setText("Expired");
                     holder.foodExpiryDate.setTextColor(Color.parseColor("#ff5034"));
 
-                }
-                else
-                {
+                } else {
                     holder.foodExpiryDate.setText(model.getItemExpiryDate());
                 }
 
                 // delete automatically  after 5 days
                 int delete_day = e_day + 5;
-                if(e_year == c_year && e_month == c_month && delete_day == c_day)
-                {
+                if (e_year == c_year && e_month == c_month && delete_day == c_day) {
 //                    DatabaseReference postDeleteCart = FirebaseDatabase.getInstance().getReference("Cart").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(post_key);
                     DatabaseReference postDeletePost = FirebaseDatabase.getInstance().getReference("Post").child(post_key);
                     DatabaseReference postDeleteUserPost = FirebaseDatabase.getInstance().getReference("UserPost").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(post_key);
@@ -367,39 +376,28 @@ public class HomeActivity extends AppCompatActivity {
 
                 String food_category = model.getItemCategory();
 
-                if(foodStatus.equals("For Sale"))
-                {
-                    if(bestPrice < 80)
-                    {
+                if (foodStatus.equals("For Sale")) {
+                    if (bestPrice < 80) {
                         holder.tvPrice.setText("Rs. " + model.getItemPrice());
                         holder.ivStatusImage.setImageResource(R.drawable.best_price);
-                    }
-                    else
-                    {
+                    } else {
                         holder.tvPrice.setText("Rs. " + model.getItemPrice());
                         holder.ivStatusImage.setImageResource(R.drawable.on_sale_big);
                     }
 
-                }
-                else
-                {
+                } else {
                     holder.tvPrice.setText(String.valueOf(model.getItemPrice()));
 
                     holder.ivStatusImage.setImageResource(R.drawable.donate);
                 }
                 holder.foodName.setText(model.getItemName());
 
-                if(food_category.equals("Food"))
-                {
+                if (food_category.equals("Food")) {
                     holder.tvStock.setText(model.getStockNo() + " Plates");
-                }
-                else if(food_category.equals("Groceries"))
-                {
+                } else if (food_category.equals("Groceries")) {
                     holder.tvStock.setText(model.getStockNo() + " Pieces");
 
-                }
-                else
-                {
+                } else {
                     holder.tvStock.setText(model.getStockNo() + " Kg");
 
                 }
@@ -407,13 +405,10 @@ public class HomeActivity extends AppCompatActivity {
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(mUser == null || !mUser.isEmailVerified())
-                        {
-                            Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
+                        if (mUser == null || !mUser.isEmailVerified()) {
+                            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                             startActivity(intent);
-                        }
-                        else
-                        {
+                        } else {
                             Intent sinlePostIntent = new Intent(HomeActivity.this, FoodPostSingleActivity.class);
                             sinlePostIntent.putExtra("post_id", post_key);
                             startActivity(sinlePostIntent);
@@ -433,7 +428,7 @@ public class HomeActivity extends AppCompatActivity {
             }
         };
 
-        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.RIGHT) {
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder viewHolder1) {
                 return false;
@@ -461,8 +456,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
 
-    public void viewPost()
-    {
+    public void viewPost() {
 
 
         recyclerAdapter = new FirebaseRecyclerAdapter<Food, FoodViewHolder>(recyclerOptions) {
@@ -475,49 +469,39 @@ public class HomeActivity extends AppCompatActivity {
                     public void onSuccess() {
 
                     }
+
                     @Override
                     public void onError(Exception e) {
                         Toast.makeText(getApplicationContext(), "Error on load image", Toast.LENGTH_SHORT).show();
                     }
                 });
                 String foodStatus = model.getItemStatus();
-               long bestPrice = model.getItemPrice();
+                long bestPrice = model.getItemPrice();
 
                 String food_category = model.getItemCategory();
 
-                if(foodStatus.equals("For Sale"))
-                {
-                    if(bestPrice < 80)
-                    {
+                if (foodStatus.equals("For Sale")) {
+                    if (bestPrice < 80) {
                         holder.tvPrice.setText("Rs. " + model.getItemPrice());
                         holder.ivStatusImage.setImageResource(R.drawable.best_price);
-                    }
-                    else
-                    {
+                    } else {
                         holder.tvPrice.setText("Rs. " + model.getItemPrice());
                         holder.ivStatusImage.setImageResource(R.drawable.on_sale_big);
                     }
 
-                }
-                else
-                {
+                } else {
                     holder.tvPrice.setText("Rs." + String.valueOf(model.getItemPrice()));
 
                     holder.ivStatusImage.setImageResource(R.drawable.donate);
                 }
                 holder.foodName.setText(model.getItemName());
                 holder.foodExpiryDate.setText(model.getItemExpiryDate());
-                if(food_category.equals("Food"))
-                {
+                if (food_category.equals("Food")) {
                     holder.tvStock.setText(model.getStockNo() + " Plates");
-                }
-                else if(food_category.equals("Groceries"))
-                {
+                } else if (food_category.equals("Groceries")) {
                     holder.tvStock.setText(model.getStockNo() + " Pieces");
 
-                }
-                else
-                {
+                } else {
                     holder.tvStock.setText(model.getStockNo() + " Kg");
 
                 }
@@ -525,16 +509,13 @@ public class HomeActivity extends AppCompatActivity {
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(mUser !=null)
-                        {
+                        if (mUser != null) {
                             Intent sinlePostIntent = new Intent(HomeActivity.this, FoodPostSingleActivity.class);
                             sinlePostIntent.putExtra("post_id", post_key);
                             startActivity(sinlePostIntent);
 
-                        }
-                        else
-                        {
-                            Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
+                        } else {
+                            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                             startActivity(intent);
                         }
 
@@ -552,7 +533,7 @@ public class HomeActivity extends AppCompatActivity {
             }
         };
 
-        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.RIGHT) {
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder viewHolder1) {
                 return false;
@@ -580,8 +561,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
 
-    public void viewPostPrice()
-    {
+    public void viewPostPrice() {
 
 
         recyclerAdapter = new FirebaseRecyclerAdapter<Food, FoodViewHolder>(recyclerOptions) {
@@ -594,6 +574,7 @@ public class HomeActivity extends AppCompatActivity {
                     public void onSuccess() {
 
                     }
+
                     @Override
                     public void onError(Exception e) {
                         Toast.makeText(getApplicationContext(), "Error on load image", Toast.LENGTH_SHORT).show();
@@ -603,39 +584,28 @@ public class HomeActivity extends AppCompatActivity {
                 long bestPrice = model.getItemPrice();
                 String food_category = model.getItemCategory();
 
-                if(foodStatus.equals("For Sale"))
-                {
-                    if(bestPrice < 80)
-                    {
+                if (foodStatus.equals("For Sale")) {
+                    if (bestPrice < 80) {
                         holder.tvPrice.setText("Rs. " + model.getItemPrice());
                         holder.ivStatusImage.setImageResource(R.drawable.best_price);
-                    }
-                    else
-                    {
+                    } else {
                         holder.tvPrice.setText("Rs. " + model.getItemPrice());
                         holder.ivStatusImage.setImageResource(R.drawable.on_sale_big);
                     }
 
-                }
-                else
-                {
-                    holder.tvPrice.setText( "Rs." + String.valueOf(model.getItemPrice()));
+                } else {
+                    holder.tvPrice.setText("Rs." + String.valueOf(model.getItemPrice()));
 
                     holder.ivStatusImage.setImageResource(R.drawable.donate);
                 }
                 holder.foodName.setText(model.getItemName());
                 holder.foodExpiryDate.setText(model.getItemExpiryDate());
-                if(food_category.equals("Food"))
-                {
+                if (food_category.equals("Food")) {
                     holder.tvStock.setText(model.getStockNo() + " Plates");
-                }
-                else if(food_category.equals("Groceries"))
-                {
+                } else if (food_category.equals("Groceries")) {
                     holder.tvStock.setText(model.getStockNo() + " Pieces");
 
-                }
-                else
-                {
+                } else {
                     holder.tvStock.setText(model.getStockNo() + " Kg");
 
                 }
@@ -643,13 +613,10 @@ public class HomeActivity extends AppCompatActivity {
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(mUser == null)
-                        {
-                            Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
+                        if (mUser == null) {
+                            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                             startActivity(intent);
-                        }
-                        else
-                        {
+                        } else {
                             Intent sinlePostIntent = new Intent(HomeActivity.this, FoodPostSingleActivity.class);
                             sinlePostIntent.putExtra("post_id", post_key);
                             startActivity(sinlePostIntent);
@@ -669,7 +636,7 @@ public class HomeActivity extends AppCompatActivity {
             }
         };
 
-        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.RIGHT) {
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder viewHolder1) {
                 return false;
@@ -727,13 +694,25 @@ public class HomeActivity extends AppCompatActivity {
 
         switch (menuItem.getItemId()) {
             case R.id.cartButton:
-                openCartActivity();
+                if (NetworkStatus) {
+                    openCartActivity();
+                } else {
+                    buildDialog(HomeActivity.this).show();
+                }
                 break;
             case R.id.profileButton:
-                openProfileActivity();
+                if (NetworkStatus) {
+                    openProfileActivity();
+                } else {
+                    buildDialog(HomeActivity.this).show();
+                }
                 break;
             case R.id.sortViewButton:
-                openSortView();
+                if (NetworkStatus) {
+                    openSortView();
+                } else {
+                    buildDialog(HomeActivity.this).show();
+                }
                 break;
             case R.id.settingButton:
                 openSettingActivity();
@@ -742,16 +721,16 @@ public class HomeActivity extends AppCompatActivity {
                 openAboutUsActivity();
                 break;
             case R.id.signInOut:
-                openSignInOut();
+                if (NetworkStatus) {
+                    openSignInOut();
+                } else {
+                    buildDialog(HomeActivity.this).show();
+                }
                 break;
-//            case R.id.layoutViewButton:
-//                openLayoutView();
-//                break;
 
         }
         return super.onOptionsItemSelected(menuItem);
     }
-
 
 
     @Override
@@ -766,9 +745,7 @@ public class HomeActivity extends AppCompatActivity {
         } else if (firebaseAuth.getCurrentUser() == null) {
             statusInOut = "signOut";
             menu.findItem(R.id.signInOut).setTitle(signInTitle);
-        }
-        else
-        {
+        } else {
             statusInOut = "signOut";
             menu.findItem(R.id.signInOut).setTitle(signInTitle);
         }
@@ -800,17 +777,14 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     public void openCartActivity() {
-        if(mUser == null || !mUser.isEmailVerified())
-        {
+        if (mUser == null || !mUser.isEmailVerified()) {
             Toast.makeText(this, "Please Sign in to Add item to cart!!", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
             vibrator.vibrate(20);
             startActivity(intent);
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 
-        }
-        else
-        {
+        } else {
             Intent intent = new Intent(getApplicationContext(), CartActivity.class);
             startActivity(intent);
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
@@ -949,10 +923,8 @@ public class HomeActivity extends AppCompatActivity {
     }
 
 
-
     public void openDonation() {
         if (sharedPref.loadDarkModeState() == true) {
-
 
 
             defaultBut.setBackground(getDrawable(R.drawable.button_design));
@@ -1095,6 +1067,38 @@ public class HomeActivity extends AppCompatActivity {
         startActivity(i);
     }
 
+    public boolean isNetworkConnected(Context context) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+
+        if (networkInfo != null && networkInfo.isConnectedOrConnecting()) {
+            android.net.NetworkInfo wifi = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+            android.net.NetworkInfo mobile = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+
+            if ((mobile != null && mobile.isConnectedOrConnecting()) || (wifi != null && wifi.isConnectedOrConnecting()))
+                return true;
+            else return false;
+
+        } else {
+            return false;
+        }
+    }
+
+    public AlertDialog.Builder buildDialog(Context context) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("No Internet Connection");
+        builder.setCancelable(true);
+        builder.setMessage("You need to have Mobile data or Wifi to Access this. Press ok to Exit");
+
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+            }
+        });
+        return builder;
+    }
+
     //double back pressed showing toast
     @Override
     public void onBackPressed() {
@@ -1110,7 +1114,6 @@ public class HomeActivity extends AppCompatActivity {
         }
         backPressedTime = System.currentTimeMillis();
     }
-
 
 
 }
