@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.pravinewa.foodhut">
+
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/logos"
+        android:label="@string/app_name"
+        android:roundIcon="@drawable/logos"
+        android:supportsRtl="true"
+        android:theme="@style/DefaultTheme">
+        <activity
+            android:name=".WalkthroughScreen"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".HomeActivity"
+            android:parentActivityName=".WalkthroughScreen"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name=".CartActivity"
+            android:parentActivityName=".HomeActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name=".ProfileActivity"
+            android:parentActivityName=".HomeActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name=".SettingActivity"
+            android:parentActivityName=".HomeActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name=".AboutUsActivity"
+            android:parentActivityName=".HomeActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name=".AddFoodActivity"
+            android:parentActivityName=".HomeActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name=".LoginActivity"
+            android:parentActivityName=".HomeActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name=".SignUpActivity"
+            android:parentActivityName=".LoginActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name=".EditProfileActivity"
+            android:parentActivityName=".ProfileActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity android:name=".ItemUpdateActivity"
+            android:parentActivityName=".FoodPostSingleActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize"/>
+        <activity
+            android:name=".FoodPostSingleActivity"
+            android:parentActivityName=".HomeActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity android:name=".HistoryOrderActivity"></activity>
+    </application>
+
+</manifest>

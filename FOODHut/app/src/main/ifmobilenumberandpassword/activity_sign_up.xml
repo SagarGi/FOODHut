@@ -1,0 +1,382 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/backgroundColor"
+    android:orientation="vertical"
+    tools:context=".SignUpActivity">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/signUpToolbarId"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:titleTextColor="?attr/titleToolbarColor" />
+
+
+        <ScrollView
+            android:id="@+id/signUpFirstPage"
+            android:layout_below="@+id/signUpToolbarId"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:scrollbarThumbHorizontal="@null"
+            android:scrollbarThumbVertical="@null"
+            android:visibility="visible">
+
+            <RelativeLayout
+                android:layout_width="340dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"
+                android:padding="10dp">
+
+
+                <TextView
+                    android:id="@+id/mobNumberIdTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:text="Mobile Number"
+                    android:textAllCaps="true"
+                    android:textColor="?attr/textColor"
+                    android:textSize="18dp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/userMobNumberSignUp"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/mobNumberIdTitle"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp"
+                    android:background="?attr/textViewDesign"
+                    android:drawablePadding="12dp"
+                    android:hint="98xxxxxxxx"
+                    android:inputType="number"
+                    android:padding="8dp"
+                    android:textColor="?attr/textColor"
+                    android:textColorHint="?attr/someTextColor" />
+
+
+                <TextView
+                    android:id="@+id/passwordIdTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/userMobNumberSignUp"
+                    android:layout_marginTop="20dp"
+                    android:padding="8dp"
+                    android:text="Password"
+                    android:textAllCaps="true"
+                    android:textColor="?attr/textColor"
+                    android:textSize="18dp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/userPasswordSignUp"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/passwordIdTitle"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp"
+                    android:background="?attr/textViewDesign"
+                    android:drawablePadding="12dp"
+                    android:hint="********"
+                    android:inputType="textPassword"
+                    android:padding="8dp"
+                    android:textColor="?attr/textColor"
+                    android:textColorHint="?attr/someTextColor" />
+
+
+                <TextView
+                    android:id="@+id/passwordConfirmIdTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/userPasswordSignUp"
+                    android:layout_marginTop="20dp"
+                    android:padding="8dp"
+                    android:text="Confirm Password"
+                    android:textAllCaps="true"
+                    android:textColor="?attr/textColor"
+                    android:textSize="18dp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/userConfirmPasswordSignUp"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/passwordConfirmIdTitle"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp"
+                    android:background="?attr/textViewDesign"
+                    android:drawablePadding="12dp"
+                    android:hint="********"
+                    android:inputType="textPassword"
+                    android:padding="8dp"
+                    android:textColor="?attr/textColor"
+                    android:textColorHint="?attr/someTextColor" />
+
+
+                <Button
+                    android:id="@+id/next_button"
+                    android:layout_width="280dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/userConfirmPasswordSignUp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="40dp"
+                    android:background="?attr/buttonDesignOut"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:text="Next"
+                    android:textAllCaps="true"
+                    android:textColor="?attr/textColor"
+                    android:textSize="18dp"
+                    android:textStyle="bold" />
+
+
+            </RelativeLayout>
+
+        </ScrollView>
+
+        <ScrollView
+            android:id="@+id/signUpSecondPage"
+            android:layout_below="@+id/signUpToolbarId"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:scrollbarThumbHorizontal="@null"
+            android:scrollbarThumbVertical="@null"
+            android:visibility="gone">
+
+            <RelativeLayout
+                android:layout_width="340dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"
+                android:padding="10dp">
+
+
+                <TextView
+                    android:id="@+id/yourEmailTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:text="Please verify your account by entering 6 digit code that has been sent to your Mobile Number."
+                    android:textAllCaps="false"
+                    android:textColor="?attr/textColor"
+                    android:textSize="18dp" />
+
+                <TextView
+                    android:id="@+id/verifyEmailTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/yourEmailTitle"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="90dp"
+                    android:padding="8dp"
+                    android:text="Enter the 6 digit OTP"
+                    android:textAllCaps="false"
+                    android:textColor="?attr/someTextColor"
+                    android:textSize="14dp" />
+
+                <com.chaos.view.PinView
+                    android:id="@+id/emailVerifyPin"
+                    style="@style/PinWidget.PinView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/verifyEmailTitle"
+                    android:layout_centerHorizontal="true"
+                    android:padding="10dp"
+                    android:textColor="?attr/textColor"
+                    android:textSize="16dp"
+                    android:inputType="number"
+                    app:itemCount="6"
+                    app:itemHeight="48dp"
+                    app:itemRadius="10dp"
+                    app:lineColor="?attr/buttonColor" />
+
+                <Button
+                    android:id="@+id/verify_button"
+                    android:layout_width="280dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/emailVerifyPin"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="70dp"
+                    android:background="?attr/buttonDesignIn"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:text="Verify"
+                    android:textAllCaps="true"
+                    android:textColor="?attr/textColorReverse"
+                    android:textSize="18dp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/back_first_button"
+                    android:layout_width="280dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/verify_button"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="25dp"
+                    android:background="?attr/buttonDesignOut"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:text="Back"
+                    android:textAllCaps="true"
+                    android:textColor="?attr/textColor"
+                    android:textSize="18dp"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
+
+        </ScrollView>
+
+        <ScrollView
+            android:id="@+id/signUpLastPage"
+            android:layout_below="@+id/signUpToolbarId"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:scrollbarThumbHorizontal="@null"
+            android:scrollbarThumbVertical="@null"
+            android:visibility="gone">
+
+            <RelativeLayout
+                android:layout_width="340dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"
+                android:padding="10dp">
+
+
+                <TextView
+                    android:id="@+id/fullNameIdTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:text="Full Name"
+                    android:textAllCaps="true"
+                    android:textColor="?attr/textColor"
+                    android:textSize="18dp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/userFullNameSignUp"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/fullNameIdTitle"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp"
+                    android:background="?attr/textViewDesign"
+                    android:drawablePadding="12dp"
+                    android:hint="Example Example"
+                    android:inputType="textPersonName"
+                    android:padding="8dp"
+                    android:textColor="?attr/textColor"
+                    android:textColorHint="?attr/someTextColor" />
+
+
+                <TextView
+                    android:id="@+id/emailIdTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/userFullNameSignUp"
+                    android:layout_marginTop="20dp"
+                    android:padding="8dp"
+                    android:text="Email"
+                    android:textAllCaps="true"
+                    android:textColor="?attr/textColor"
+                    android:textSize="18dp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/userEmailSignUp"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/emailIdTitle"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp"
+                    android:background="?attr/textViewDesign"
+                    android:drawablePadding="12dp"
+                    android:hint="example@example.com"
+                    android:inputType="textEmailAddress"
+                    android:padding="8dp"
+                    android:textColor="?attr/textColor"
+                    android:textColorHint="?attr/someTextColor" />
+
+
+                <TextView
+                    android:id="@+id/userAddressIdTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/userEmailSignUp"
+                    android:layout_marginTop="20dp"
+                    android:padding="8dp"
+                    android:text="Address"
+                    android:textAllCaps="true"
+                    android:textColor="?attr/textColor"
+                    android:textSize="18dp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/userAddressSignUp"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/userAddressIdTitle"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp"
+                    android:background="?attr/textViewDesign"
+                    android:drawablePadding="12dp"
+                    android:hint="Address"
+                    android:inputType="text"
+                    android:padding="8dp"
+                    android:textColor="?attr/textColor"
+                    android:textColorHint="?attr/someTextColor" />
+
+
+                <Button
+                    android:id="@+id/signUps_button"
+                    android:layout_width="280dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/userAddressSignUp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="40dp"
+                    android:background="?attr/buttonDesignIn"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:text="Sign Up"
+                    android:textAllCaps="true"
+                    android:textColor="?attr/textColorReverse"
+                    android:textSize="18dp"
+                    android:textStyle="bold" />
+
+
+            </RelativeLayout>
+
+        </ScrollView>
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/progressBar"
+            android:theme="@style/ProgressTheme"
+            android:layout_centerInParent="true"
+            android:visibility="gone"
+            />
+
+
+    </RelativeLayout>
+
+</android.support.design.widget.CoordinatorLayout>

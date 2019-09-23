@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/sliderImage"
+        android:layout_width="225dp"
+        android:layout_height="225dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dp"
+        android:src="@drawable/buy1" />
+
+    <TextView
+        android:id="@+id/sliderHeading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/sliderImage"
+        android:text="Heading"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="75dp"
+        android:textSize="30dp"
+        android:textColor="?attr/someTextColor"
+        android:fontFamily="@font/itcavantbold"/>
+
+    <!--<TextView-->
+        <!--android:id="@+id/sliderDesc"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_below="@+id/sliderHeading"-->
+        <!--android:text="Loremsa dasdnasijdasd adasd asad asd aiusdadasud auisdiuasdu aidsadfasd asdasd asd asd ad ad "-->
+        <!--android:textSize="18dp"-->
+        <!--android:textColor="#ffffff"-->
+        <!--android:layout_marginTop="20dp"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:padding="45dp"/>-->
+
+</RelativeLayout>

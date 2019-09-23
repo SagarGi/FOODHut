@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="250dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardElevation="10dp"
+    android:background="?attr/highlightColor"
+    android:layout_margin="5dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="240dp">
+
+        <ImageView
+            android:id="@+id/food_post_image"
+            android:layout_width="match_parent"
+            android:layout_height="170dp"
+            android:scaleType="centerCrop"
+            android:adjustViewBounds="true"
+            android:padding="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"/>
+
+        <TextView
+            android:id="@+id/food_post_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Food Name"
+            android:textSize="18dp"
+            android:textColor="?attr/textColor"
+            android:layout_below="@+id/food_post_image"
+            android:padding="7dp"
+            android:layout_marginLeft="7dp"
+            android:textStyle="bold"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/food_post_name"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/foodExpireTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Expires on : "
+                android:textSize="14dp"
+                android:textColor="?attr/someTextColor"
+                android:paddingLeft="7dp"
+                android:paddingRight="7dp"
+                android:layout_marginLeft="7dp"
+                android:paddingBottom="5dp"/>
+
+            <TextView
+                android:id="@+id/food_post_expiry_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="DD/MM/YYYY"
+                android:textSize="14dp"
+                android:textColor="?attr/someTextColor"
+                android:paddingRight="7dp"
+                android:paddingBottom="5dp"/>
+
+
+        </LinearLayout>
+
+    </RelativeLayout>
+</android.support.v7.widget.CardView>

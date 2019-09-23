@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/backgroundColor"
+    android:orientation="vertical"
+    tools:context=".SettingActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/settingToolbarId"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:titleTextColor="?attr/titleToolbarColor" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/settingToolbarId"
+            android:scrollbarThumbHorizontal="@null"
+            android:scrollbarThumbVertical="@null"            >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/accountButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/backgroundColor"
+                    android:clickable="true">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="?attr/backgroundColor"
+                        android:orientation="horizontal"
+                        android:padding="15dp">
+
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginLeft="20dp"
+                            android:background="?attr/settingAccountTitleIcon" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="25dp"
+                            android:text="Account"
+                            android:textColor="?attr/someTextColor"
+                            android:textSize="18dp" />
+
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
+
+                <RelativeLayout
+                    android:id="@+id/accountSettingMode"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/accountButton"
+                    android:layout_marginTop="1dp"
+                    android:background="?attr/highlightColor"
+                    android:elevation="2dp"
+                    android:orientation="vertical"
+                    android:paddingLeft="30dp"
+                    android:paddingRight="30dp"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/oldPasswordIdTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="8dp"
+                        android:text="Old Password"
+                        android:textAllCaps="true"
+                        android:textColor="?attr/textColor"
+                        android:textSize="18dp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:id="@+id/linearlayout1"
+                        android:layout_width="300dp"
+                        android:layout_height="40dp"
+                        android:layout_below="@+id/oldPasswordIdTitle"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="10dp"
+                        android:background="?attr/textViewDesign"
+                        android:orientation="horizontal"
+
+                        >
+
+                        <EditText
+                            android:id="@+id/userOldPassword"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_weight="6"
+                            android:background="?attr/backgroundColor"
+                            android:drawablePadding="12dp"
+                            android:hint="********"
+                            android:inputType="textPassword"
+                            android:padding="8dp"
+                            android:textColor="?attr/textColor"
+                            android:textColorHint="?attr/someTextColor" />
+
+                        <ImageView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:src="?attr/eye"
+                            android:id="@+id/password_show_old"
+                            android:padding="8dp"
+                            android:layout_weight="1"
+                            android:background="?attr/backgroundColor"
+                            android:layout_gravity="center"
+                            android:clickable="true"/>
+
+                    </LinearLayout>
+
+
+                    <TextView
+                        android:id="@+id/passwordResetIdTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/linearlayout1"
+                        android:layout_marginTop="10dp"
+                        android:padding="8dp"
+                        android:text="New Password"
+                        android:textAllCaps="true"
+                        android:textColor="?attr/textColor"
+                        android:textSize="18dp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:id="@+id/linearlayout2"
+                        android:layout_width="300dp"
+                        android:layout_height="40dp"
+                        android:layout_below="@+id/passwordResetIdTitle"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="10dp"
+                        android:background="?attr/textViewDesign"
+                        android:orientation="horizontal"
+
+                        >
+
+                        <EditText
+                            android:id="@+id/userPasswordReset"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_weight="6"
+                            android:background="?attr/backgroundColor"
+                            android:drawablePadding="12dp"
+                            android:hint="********"
+                            android:inputType="textPassword"
+                            android:padding="8dp"
+                            android:textColor="?attr/textColor"
+                            android:textColorHint="?attr/someTextColor" />
+
+                        <ImageView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:src="?attr/eye"
+                            android:id="@+id/password_show_new"
+                            android:padding="8dp"
+                            android:layout_weight="1"
+                            android:background="?attr/backgroundColor"
+                            android:layout_gravity="center"
+                            android:clickable="true"/>
+
+                    </LinearLayout>
+
+                    <Button
+                        android:id="@+id/changePassword_button"
+                        android:layout_width="280dp"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/linearlayout2"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="25dp"
+                        android:layout_marginBottom="15dp"
+                        android:background="?attr/buttonDesignOut"
+                        android:clickable="true"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="Change Password"
+                        android:textAllCaps="true"
+                        android:textColor="?attr/textColor"
+                        android:textSize="18dp"
+                        android:textStyle="bold" />
+
+
+                </RelativeLayout>
+
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/appearanceButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/accountSettingMode"
+                    android:layout_marginTop="1dp"
+                    android:background="?attr/backgroundColor"
+                    android:clickable="true">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="?attr/backgroundColor"
+                        android:padding="15dp">
+
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginLeft="20dp"
+                            android:background="?attr/settingAppearanceIcon" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="25dp"
+                            android:text="Appearance"
+                            android:textColor="?attr/someTextColor"
+                            android:textSize="18dp" />
+
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
+
+                <LinearLayout
+                    android:id="@+id/differentMode"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_below="@+id/appearanceButton"
+                    android:layout_marginTop="1dp"
+                    android:background="?attr/highlightColor"
+                    android:elevation="2dp"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center_vertical"
+                        android:text="Themes :"
+                        android:textColor="?attr/textColor"
+                        android:textSize="18dp"
+                        android:textStyle="bold" />
+
+                    <RadioGroup
+                        android:id="@+id/appearanceMode"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <RadioButton
+                            android:id="@+id/defaultMode"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="5dp"
+                            android:buttonTint="?attr/buttonColor"
+                            android:checked="true"
+                            android:text="Default"
+                            android:textColor="?attr/textColor"
+                            android:textSize="16dp" />
+
+                        <RadioButton
+                            android:id="@+id/lightMode"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="5dp"
+                            android:buttonTint="?attr/buttonColor"
+                            android:checked="false"
+                            android:text="Light"
+                            android:textColor="?attr/textColor"
+                            android:textSize="16dp" />
+
+
+                        <RadioButton
+                            android:id="@+id/darkMode"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="5dp"
+                            android:buttonTint="?attr/buttonColor"
+                            android:checked="false"
+                            android:text="Dark"
+                            android:textColor="?attr/textColor"
+                            android:textSize="16dp" />
+
+                    </RadioGroup>
+
+
+                </LinearLayout>
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/settingButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/differentMode"
+                    android:layout_marginTop="1dp"
+                    android:background="?attr/backgroundColor"
+                    android:clickable="true">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="?attr/backgroundColor"
+                        android:padding="15dp">
+
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginLeft="20dp"
+                            android:background="?attr/settingGeneralIcon" />
+
+                        <TextView
+                            android:id="@+id/settingSignInOut"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="25dp"
+                            android:text="Sign Out"
+                            android:textColor="?attr/someTextColor"
+                            android:textSize="18dp" />
+
+
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
+
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/settingButton"
+                    android:layout_marginTop="1dp"
+                    android:background="?attr/backgroundColor"/>
+
+
+
+            </RelativeLayout>
+
+        </ScrollView>
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/progressBarSetting"
+            android:theme="@style/ProgressTheme"
+            android:layout_centerInParent="true"
+            android:visibility="gone"
+            />
+
+    </RelativeLayout>
+
+
+
+</android.support.design.widget.CoordinatorLayout>

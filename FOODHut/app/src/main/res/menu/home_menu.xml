@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!--<item-->
+        <!--android:id="@+id/layoutViewButton"-->
+        <!--android:title="Layouts"-->
+        <!--android:icon="?attr/gridLayoutTitleIcon"-->
+        <!--app:showAsAction="always" />-->
+
+    <item
+        android:id="@+id/sortViewButton"
+        android:title="Sorting"
+        android:icon="?attr/sortTitleIcon"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/cartButton"
+        android:title="Cart"
+        android:icon="?attr/cartTitleIcon"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/menu_collection"
+        android:icon="?attr/dotTitleIcon"
+        app:showAsAction="always"
+        android:title="menu">
+
+    <menu>
+
+        <item
+            android:id="@+id/profileButton"
+            android:title="Profile"/>
+
+        <item
+            android:id="@+id/settingButton"
+            android:title="Setting"/>
+
+        <item
+            android:id="@+id/aboutButton"
+            android:title="About Us"/>
+
+        <item
+            android:id="@+id/signInOut"
+            android:title="Sign In"/>
+    </menu>
+    </item>
+
+
+
+
+</menu>

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="15dp"
+        android:gravity="center"
+        android:text="Confirm Checkout"
+        android:textColor="@color/common_google_signin_btn_text_dark_focused"
+        android:textSize="22sp" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="5dp"
+        android:background="@android:color/darker_gray" />
+
+    <TextView
+        android:id="@+id/placeOrderTotalAmount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="5dp"
+        android:text="Total Amount : "
+        android:textSize="14sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="5dp"
+        android:text="Ship to :"
+        android:textSize="14sp" />
+
+    <RadioGroup
+        android:id="@+id/addressRadioGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="10dp">
+
+        <RadioButton
+            android:id="@+id/currentAddressButton"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:checked="true"
+            android:onClick="onRadioButtonClicked"
+            android:text="Current Address"
+            android:textSize="14sp" />
+
+        <RadioButton
+            android:id="@+id/newAddressButton"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:onClick="onRadioButtonClicked"
+            android:text="New Address"
+            android:textSize="14sp" />
+
+    </RadioGroup>
+
+
+    <EditText
+        android:id="@+id/newShippingAddress"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="5dp"
+        android:background="?attr/textViewDesign"
+        android:padding="10dp"
+        android:ems="10"
+        android:hint="New address.."
+        android:inputType="text"
+        android:textSize="14sp"
+        android:enabled="false"/>
+
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="15dp"
+        android:text="Once the order has been confirmed. it cannot be canceled later."
+        android:textSize="12dp"/>
+
+    <CheckBox
+        android:id="@+id/iwishChechBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="5dp"
+        android:buttonTint="?attr/buttonColor"
+        android:padding="8dp"
+        android:text="Yes, i wish to confirm my order"
+        android:textColor="?attr/textColor" />
+
+
+
+    <Button
+        android:id="@+id/confirmPlaceOrder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="25dp"
+        android:fontFamily="@font/itcavantbold"
+        android:background="?attr/buttonDesignIn"
+        android:text="Confirm Order"
+        android:textAllCaps="false"
+        android:textSize="18dp"
+        android:textColor="?attr/textColorReverse" />
+
+</LinearLayout>

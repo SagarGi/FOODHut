@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "207092513938",
+    "firebase_url": "https://foodhut-333d9.firebaseio.com",
+    "project_id": "foodhut-333d9",
+    "storage_bucket": "foodhut-333d9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:207092513938:android:2bad4af72ff5a45f",
+        "android_client_info": {
+          "package_name": "com.example.pravinewa.foodhut"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "207092513938-8on7buo7meifnnkt6jtv6gbl5v599bur.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCt70S9D03EdBSRBXXstMiLhy2tx_5HzgA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "207092513938-8on7buo7meifnnkt6jtv6gbl5v599bur.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

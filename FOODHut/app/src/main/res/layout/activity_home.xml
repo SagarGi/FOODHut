@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/backgroundColor"
+    android:orientation="vertical"
+    android:id="@+id/homeView"
+    tools:context=".HomeActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/homeToolbarId"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:titleTextColor="?attr/titleToolbarColor"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+        <RelativeLayout
+            android:id="@+id/sortViewDisplay"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_below="@+id/homeToolbarId"
+            android:background="?attr/highlightColor"
+            android:elevation="2dp"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:id="@+id/sortView"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:gravity="center_vertical"
+                    android:text="Sort by :"
+                    android:textSize="14dp"
+                    android:textColor="?attr/textColor"
+                    android:textStyle="bold" />
+
+                <RadioGroup
+                    android:id="@+id/sortRadioGroup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/recentRadioBut"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="5dp"
+                        android:checked="true"
+                        android:text="Recent"
+                        android:buttonTint="?attr/buttonColor"
+                        android:textColor="?attr/textColor"
+                        android:textSize="12dp" />
+
+                    <RadioButton
+                        android:id="@+id/expiryRadioBut"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="5dp"
+                        android:checked="false"
+                        android:text="Expiry Date"
+                        android:buttonTint="?attr/buttonColor"
+                        android:textColor="?attr/textColor"
+                        android:textSize="12dp" />
+
+
+                    <RadioButton
+                        android:id="@+id/priceRadioBut"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="5dp"
+                        android:checked="false"
+                        android:text="Price"
+                        android:buttonTint="?attr/buttonColor"
+                        android:textColor="?attr/textColor"
+                        android:textSize="12dp" />
+
+                </RadioGroup>
+
+
+            </LinearLayout>
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_below="@+id/sortView"
+                android:layout_centerVertical="true"
+                android:scrollbarThumbHorizontal="@null"
+                android:scrollbarThumbVertical="@null">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/defaultButton"
+                            android:layout_width="120dp"
+                            android:layout_height="30dp"
+                            android:layout_marginLeft="25dp"
+                            android:layout_gravity="center"
+                            android:clickable="true"
+                            android:text="Recent"
+                            android:background="?attr/buttonDesignIn"
+                            android:textColor="?attr/textColorReverse"
+                            android:textAllCaps="false"
+                            android:textSize="12dp" />
+
+                    <Button
+                        android:id="@+id/itemForDonation"
+                        android:layout_width="120dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="25dp"
+                        android:background="?attr/buttonDesignOut"
+                        android:clickable="true"
+                        android:text="Donation"
+                        android:textAllCaps="false"
+                        android:textColor="?attr/textColor"
+                        android:textSize="12dp" />
+
+
+                    <Button
+                        android:id="@+id/fruitsButton"
+                        android:layout_width="120dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="20dp"
+                        android:background="?attr/buttonDesignOut"
+                        android:clickable="true"
+                        android:text="Fruits"
+                        android:textAllCaps="false"
+                        android:textColor="?attr/textColor"
+                        android:textSize="12dp" />
+
+                    <Button
+                        android:id="@+id/vegetableButton"
+                        android:layout_width="120dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="20dp"
+                        android:background="?attr/buttonDesignOut"
+                        android:clickable="true"
+                        android:text="Vegetables"
+                        android:textAllCaps="false"
+                        android:textColor="?attr/textColor"
+                        android:textSize="12dp" />
+
+                    <Button
+                        android:id="@+id/cookFoodButton"
+                        android:layout_width="120dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="20dp"
+                        android:background="?attr/buttonDesignOut"
+                        android:textColor="?attr/textColor"
+                        android:clickable="true"
+                        android:text="Food"
+                        android:textAllCaps="false"
+                        android:textSize="12dp" />
+
+                    <Button
+                        android:id="@+id/fridgeItemButton"
+                        android:layout_width="120dp"
+                        android:layout_height="30dp"
+                        android:layout_marginRight="25dp"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="20dp"
+                        android:background="?attr/buttonDesignOut"
+                        android:textColor="?attr/textColor"
+                        android:clickable="true"
+                        android:text="Groceries"
+                        android:textAllCaps="false"
+                        android:textSize="12dp" />
+
+
+                </LinearLayout>
+            </HorizontalScrollView>
+
+        </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/itemDisplay"
+                android:layout_below="@+id/sortViewDisplay">
+
+                <android.support.v4.widget.SwipeRefreshLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/refreshHome">
+
+                <android.support.v7.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/food_post_list"
+                    android:background="?attr/backgroundColor">
+
+
+
+                </android.support.v7.widget.RecyclerView>
+
+                </android.support.v4.widget.SwipeRefreshLayout>
+            </RelativeLayout>
+    </RelativeLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/floationgButtonAddBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="25dp"
+        android:layout_marginRight="25dp"
+        android:src="?attr/addFloatingIcon"
+        app:elevation="6dp"
+        android:backgroundTint="?attr/buttonColor"
+        app:fabSize="normal" />
+
+</android.support.design.widget.CoordinatorLayout>

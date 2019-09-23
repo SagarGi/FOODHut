@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">FOODHut</string>
+
+    <string name="app_description">It is a mobile application built with the help of Android Studio using Java and its library Application Programming Interface (APIs). “FOODHut” basically is a food app where people can get food or vegetable or fruits items which is near to its expiry date in lower price. The owner whose items are near to the expiry date can use this app in order to sell their items online so that the interested buyer can buy them at a lower price. In addition to this, “FOODHut” users can even donate food or vegetables/fruits items so that the donated food can be used wisely by an organization or social club for the needy people. With these two targets, this app firstly helps the owner to increase their sales and make their sales rate consistency and on the other hand, it indirectly helps those poor and needy people by food donation service.</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

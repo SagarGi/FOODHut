@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="?attr/backgroundColor"
+    tools:context=".ItemUpdateActivity">
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:id="@+id/EditItemToolbar"
+        android:background="?attr/colorPrimary"
+        app:titleTextColor="?attr/titleToolbarColor"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/itcavantbold"
+                android:text="ITEM INFORMATION"
+                android:textColor="@color/default_status"
+                android:textAllCaps="false"
+                android:textSize="18sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:layout_marginTop="15dp"
+
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:paddingTop="20dp"
+                    android:text="Name :"
+                    android:textColor="?attr/updateColorText"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/etItemName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_weight="3"
+                    android:ems="10"
+                    android:focusable="false"
+                    android:inputType="textPersonName"
+                    android:paddingBottom="20dp"
+                    android:textColor="?attr/updateColorText"
+                    android:paddingLeft="15dp"
+                    android:text="item name"
+                    android:textSize="14sp" />
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+
+                android:layout_marginTop="7dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:paddingTop="20dp"
+                    android:text="Category :"
+                    android:textColor="?attr/updateColorText"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/etItemCategory"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_weight="3"
+                    android:ems="10"
+                    android:focusable="false"
+                    android:textColor="?attr/updateColorText"
+                    android:inputType="textPersonName"
+                    android:paddingBottom="20dp"
+                    android:paddingLeft="15dp"
+                    android:text="item name"
+                    android:textSize="14sp" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+
+                android:layout_marginTop="7dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:textColor="?attr/updateColorText"
+                    android:paddingTop="20dp"
+                    android:text="Decription :"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/etItemDescription"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_weight="3"
+                    android:ems="10"
+                    android:textColor="?attr/updateColorText"
+                    android:focusable="false"
+                    android:inputType="textPersonName"
+                    android:paddingBottom="20dp"
+                    android:paddingLeft="15dp"
+                    android:text="item name"
+                    android:textSize="14sp" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+
+                android:layout_marginTop="7dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:paddingTop="20dp"
+                    android:textColor="?attr/updateColorText"
+                    android:text="Stock :"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/etItemStock"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_weight="3"
+                    android:ems="10"
+                    android:focusable="false"
+                    android:textColor="?attr/updateColorText"
+                    android:inputType="number"
+                    android:paddingBottom="20dp"
+                    android:paddingLeft="15dp"
+                    android:text="item name"
+                    android:textSize="14sp" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+
+                android:layout_marginTop="7dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:paddingTop="20dp"
+                    android:textColor="?attr/updateColorText"
+                    android:text="Status :"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/etItemStatus"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_weight="3"
+                    android:ems="10"
+                    android:focusable="false"
+                    android:inputType="textPersonName"
+                    android:textColor="?attr/updateColorText"
+                    android:paddingBottom="20dp"
+                    android:paddingLeft="15dp"
+                    android:text="item name"
+                    android:textSize="14sp" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+
+                android:layout_marginTop="7dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:textColor="?attr/updateColorText"
+                    android:paddingTop="20dp"
+                    android:text="Expiry :"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/etItemExpiryDate"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_weight="3"
+                    android:ems="10"
+                    android:focusable="false"
+                    android:inputType="textPersonName"
+                    android:paddingBottom="20dp"
+                    android:textColor="?attr/updateColorText"
+                    android:paddingLeft="15dp"
+                    android:text="item name"
+                    android:textSize="14sp" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+
+                android:layout_marginTop="7dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:textColor="?attr/updateColorText"
+                    android:paddingTop="20dp"
+                    android:text="Price :"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/etItemPrice"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_weight="3"
+                    android:ems="10"
+                    android:focusable="false"
+                    android:inputType="number"
+                    android:paddingBottom="20dp"
+                    android:paddingLeft="15dp"
+                    android:textColor="?attr/updateColorText"
+                    android:text="item name"
+                    android:textSize="14sp" />
+
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnUpdateItem"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="20dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:layout_marginTop="25dp"
+                android:background="?attr/buttonDesignIn"
+                android:clickable="true"
+                android:padding="5dp"
+                android:text="Update"
+                android:textAllCaps="true"
+                android:textColor="?attr/textColorReverse"
+                android:textSize="18dp"
+                android:textStyle="bold" />
+
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

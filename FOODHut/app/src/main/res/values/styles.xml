@@ -1,0 +1,173 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">#ffffff</item>
+        <item name="colorPrimaryDark">#ffffff</item>
+        <item name="colorAccent">#000000</item>
+        <item name="backgroundColor">#ffffff</item>
+    </style>
+
+    <style name="DefaultTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">#ff5034</item>
+        <item name="colorPrimaryDark">#ff5034</item>
+        <item name="colorAccent">#4b4b4b</item>
+        <item name="backgroundColor">#ffffff</item>
+        <item name="textColor">#000000</item>
+        <item name="someTextColor">#696969</item>
+        <item name="textColorReverse">#ffffff</item>
+        <item name="tintColor">#000000</item>
+        <item name="updateColorText">#000000</item>
+        <item name="buttonColor">#ff5034</item>
+        <item name="highlightColor">#dfe6e9</item>
+        <item name="titleToolbarColor">#ffffff</item>
+        <item name="borderrColor">#ff5034</item>
+        <item name="buttonSelectTextColor">#ffffff</item>
+        <item name="profileitems">@drawable/iconappearanceblack</item>
+        <item name="eye">@drawable/invisible_eye_black</item>
+        <item name="dotIcon">@drawable/dot</item>
+
+        <item name="textViewDesign">@drawable/textview_design</item>
+        <item name="buttonDesignOut">@drawable/button_design</item>
+        <item name="buttonDesignIn">@drawable/button_rev_design</item>
+
+        <item name="profileBackground">@drawable/profilebackround</item>
+
+        <item name="sortTitleIcon">@drawable/ic_tune_white_24dp</item>
+        <item name="cartTitleIcon">@drawable/ic_shopping_cart_white_24dp</item>
+        <item name="dotTitleIcon">@drawable/ic_more_vert_white_24dp</item>
+
+        <item name="settingAccountTitleIcon">@drawable/iconpersonblack</item>
+        <item name="settingAppearanceIcon">@drawable/iconappearanceblack</item>
+        <item name="settingGeneralIcon">@drawable/iconsettingblack</item>
+
+        <item name="accountProfileIcon">@drawable/iconpersonblack</item>
+        <item name="emailProfileIcon">@drawable/ic_email_black_24dp</item>
+        <item name="phoneProfileIcon">@drawable/ic_phone_android_black_24dp</item>
+        <item name="addressProfileIcon">@drawable/ic_my_location_black_24dp</item>
+
+        <item name="addFloatingIcon">@drawable/ic_add_white_24dp</item>
+        <item name="buywishlist">@drawable/ic_favorite_white_24dp</item>
+        <item name="cartFloatingIcon">@drawable/ic_shopping_cart_white_24dp</item>
+        <item name="attachFileIcon">@drawable/ic_attach_file_black_24dp</item>
+        <item name="taskcomplete">@drawable/iconstaskcompleted80black</item>
+        <item name="editProfileIcon">@drawable/ic_edit_white_24dp</item>
+        <item name="gridLayoutTitleIcon">@drawable/ic_grid_on_white_24dp</item>
+
+    </style>
+
+
+    <style name="LightTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <!--dcdde1 f5f6fa-->
+        <item name="colorPrimary">#ffffff</item>
+        <item name="colorPrimaryDark">#ffffff</item>
+        <item name="colorAccent">#4b4b4b</item>
+        <item name="backgroundColor">#ffffff</item>
+        <item name="textColor">#000000</item>
+        <item name="someTextColor">#696969</item>
+        <item name="textColorReverse">#ffffff</item>
+        <item name="tintColor">#000000</item>
+        <item name="buttonColor">#212121</item>
+        <item name="highlightColor">#dfe6e9</item>
+        <item name="updateColorText">#000000</item>
+        <item name="titleToolbarColor">#000000</item>
+        <item name="borderrColor">#696969</item>
+        <item name="buttonSelectTextColor">#ffffff</item>
+        <item name="eye">@drawable/invisible_eye_black</item>
+
+        <item name="profileitems">@drawable/iconappearanceblack</item>
+        <item name="textViewDesign">@drawable/textview_design</item>
+        <item name="buttonDesignOut">@drawable/button_design</item>
+        <item name="buttonDesignIn">@drawable/button_rev_design</item>
+
+        <item name="profileBackground">@drawable/profilebackround</item>
+
+        <item name="sortTitleIcon">@drawable/ic_tune_black_24dp</item>
+        <item name="cartTitleIcon">@drawable/ic_shopping_cart_black_24dp</item>
+        <item name="dotTitleIcon">@drawable/ic_more_vert_black_24dp</item>
+
+        <item name="settingAccountTitleIcon">@drawable/iconpersonblack</item>
+        <item name="settingAppearanceIcon">@drawable/iconappearanceblack</item>
+        <item name="settingGeneralIcon">@drawable/iconsettingblack</item>
+
+        <item name="accountProfileIcon">@drawable/iconpersonblack</item>
+        <item name="emailProfileIcon">@drawable/ic_email_black_24dp</item>
+        <item name="phoneProfileIcon">@drawable/ic_phone_android_black_24dp</item>
+        <item name="addressProfileIcon">@drawable/ic_my_location_black_24dp</item>
+
+        <item name="addFloatingIcon">@drawable/ic_add_white_24dp</item>
+        <item name="cartFloatingIcon">@drawable/ic_shopping_cart_white_24dp</item>
+        <item name="attachFileIcon">@drawable/ic_attach_file_black_24dp</item>
+        <item name="taskcomplete">@drawable/iconstaskcompleted80black</item>
+
+        <item name="buywishlist">@drawable/ic_favorite_black_24dp</item>
+
+        <item name="editProfileIcon">@drawable/ic_edit_black_24dp</item>
+
+    </style>
+
+    <style name="DarkTheme" parent="Theme.AppCompat.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">#212121</item>
+        <item name="colorPrimaryDark">#212121</item>
+        <item name="colorAccent">#4b4b4b</item>
+
+        <item name="backgroundColor">#303030</item>
+        <item name="textColor">#ffffff</item>
+        <item name="someTextColor">#fcfcfc</item>
+        <item name="textColorReverse">#000000</item>
+        <item name="tintColor">#ffffff</item>
+        <item name="updateColorText">#ffffff</item>
+        <item name="buttonColor">#fcfcfc</item>
+        <item name="highlightColor">#424242</item>
+        <item name="titleToolbarColor">#ffffff</item>
+        <item name="borderrColor">#fcfcfc</item>
+        <item name="buttonSelectTextColor">#ffffff</item>
+
+        <item name="textViewDesign">@drawable/textview_design</item>
+        <item name="buttonDesignOut">@drawable/button_design</item>
+        <item name="buttonDesignIn">@drawable/button_rev_design</item>
+
+        <item name="profileBackground">@drawable/profilebackgroundblack</item>
+
+        <item name="sortTitleIcon">@drawable/ic_tune_white_24dp</item>
+        <item name="cartTitleIcon">@drawable/ic_shopping_cart_white_24dp</item>
+        <item name="dotTitleIcon">@drawable/ic_more_vert_white_24dp</item>
+
+        <item name="settingAccountTitleIcon">@drawable/iconpersonwhite</item>
+        <item name="settingAppearanceIcon">@drawable/iconappearancewhite</item>
+        <item name="settingGeneralIcon">@drawable/iconsettingwhite</item>
+
+        <item name="accountProfileIcon">@drawable/iconpersonwhite</item>
+        <item name="emailProfileIcon">@drawable/ic_email_white_24dp</item>
+        <item name="phoneProfileIcon">@drawable/ic_phone_android_white_24dp</item>
+        <item name="addressProfileIcon">@drawable/ic_my_location_white_24dp</item>
+
+        <item name="addFloatingIcon">@drawable/ic_add_black_24dp</item>
+        <item name="cartFloatingIcon">@drawable/ic_shopping_cart_black_24dp</item>
+        <item name="attachFileIcon">@drawable/ic_attach_file_white_24dp</item>
+        <item name="eye">@drawable/invisible_eye_white</item>
+        <item name="profileitems">@drawable/iconappearancewhite</item>
+        <item name="taskcomplete">@drawable/iconstaskcompleted80white</item>
+        <item name="buywishlist">@drawable/ic_favorite_white_24dp</item>
+
+        <item name="editProfileIcon">@drawable/ic_edit_white_24dp</item>
+        <item name="dotIcon">@drawable/dotwhite</item>
+
+    </style>
+
+    <style name="ITCavantFont">
+        <item name="android:fontFamily">@font/itcavantbold</item>
+    </style>
+
+    <style name="ProgressTheme">
+        <item name="colorAccent">@color/blue</item>
+    </style>
+
+    <!--<style name="monoregular">-->
+    <!--<item name="android:fontFamily">@font/</item>-->
+    <!--</style>-->
+</resources>

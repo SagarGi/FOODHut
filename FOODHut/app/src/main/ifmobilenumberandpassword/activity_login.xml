@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/backgroundColor"
+    android:orientation="vertical"
+    tools:context=".LoginActivity">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/loginToolbarId"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:titleTextColor="?attr/titleToolbarColor" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/loginToolbarId"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:scrollbarThumbHorizontal="@null"
+            android:scrollbarThumbVertical="@null">
+
+            <RelativeLayout
+                android:layout_width="340dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"
+                android:padding="15dp">
+
+                <TextView
+                    android:id="@+id/mobNumbIdTitleLogin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:text="Mobile Number"
+                    android:textAllCaps="true"
+                    android:textColor="?attr/textColor"
+                    android:textSize="18dp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/userMobNumberLogin"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/mobNumbIdTitleLogin"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp"
+                    android:background="?attr/textViewDesign"
+                    android:drawablePadding="12dp"
+                    android:hint="98xxxxxxxx"
+                    android:inputType="number"
+                    android:padding="8dp"
+                    android:textColor="?attr/textColor"
+                    android:textColorHint="?attr/someTextColor" />
+
+
+                <TextView
+                    android:id="@+id/passwordIdTitleLogin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/userMobNumberLogin"
+                    android:layout_marginTop="20dp"
+                    android:padding="8dp"
+                    android:text="Password"
+                    android:textAllCaps="true"
+                    android:textColor="?attr/textColor"
+                    android:textSize="18dp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/userPasswordLogin"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/passwordIdTitleLogin"
+                    android:layout_centerHorizontal="true"
+                    android:background="?attr/textViewDesign"
+                    android:drawablePadding="12dp"
+                    android:hint="********"
+                    android:inputType="textPassword"
+                    android:padding="8dp"
+                    android:textColor="?attr/textColor"
+                    android:textColorHint="?attr/someTextColor" />
+
+
+                <CheckBox
+                    android:id="@+id/rememberMeBox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/userPasswordLogin"
+                    android:layout_marginTop="10dp"
+                    android:buttonTint="?attr/buttonColor"
+                    android:padding="8dp"
+                    android:text="Remember me"
+                    android:textColor="?attr/textColor"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/login_button"
+                    android:layout_width="280dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="40dp"
+                    android:layout_below="@+id/rememberMeBox"
+                    android:layout_centerHorizontal="true"
+                    android:background="?attr/buttonDesignIn"
+                    android:clickable="true"
+                    android:padding="5dp"
+                    android:text="Sign In"
+                    android:textAllCaps="true"
+                    android:textColor="?attr/textColorReverse"
+                    android:textSize="18dp"
+                    android:textStyle="bold" />
+
+
+                <Button
+                    android:id="@+id/signup_button"
+                    android:layout_width="280dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/login_button"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="25dp"
+                    android:background="?attr/buttonDesignOut"
+                    android:clickable="true"
+                    android:padding="5dp"
+                    android:text="Sign Up"
+                    android:textAllCaps="true"
+                    android:textColor="?attr/textColor"
+                    android:textSize="18dp"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
+
+
+
+        </ScrollView>
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/progressBar"
+            android:theme="@style/ProgressTheme"
+            android:layout_centerInParent="true"
+            android:visibility="gone"
+            />
+
+    </RelativeLayout>
+
+</android.support.design.widget.CoordinatorLayout>

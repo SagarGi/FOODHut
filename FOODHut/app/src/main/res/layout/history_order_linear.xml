@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:layout_marginBottom="1dp"
+    android:background="?attr/highlightColor"
+    app:cardElevation="2dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/food_history_image"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_margin="5dp"
+            android:adjustViewBounds="true"
+            android:layout_gravity="center"
+            android:padding="5dp"
+            android:scaleType="centerCrop" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/food_post_name_history"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@+id/food_cart_image"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:paddingTop="4dp"
+                android:paddingBottom="2dp"
+                android:text="Food Name"
+                android:textColor="?attr/textColor"
+                android:textSize="15dp"
+                android:textStyle="bold" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/food_expiry"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/food_post_price_history"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:padding="5dp"
+                    android:text="Rs. XXXXX"
+                    android:textColor="?attr/someTextColor"
+                    android:textSize="15dp" />
+                <TextView
+                    android:layout_width="10dp"
+                    android:gravity="center"
+                    android:layout_height="wrap_content"
+                    android:text="x"
+                    android:textColor="?attr/someTextColor"
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:id="@+id/food_post_quantity_history"
+                    android:layout_width="80dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:text="XX"
+                    android:textColor="?attr/someTextColor"
+                    android:textSize="15dp" />
+
+
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="2dp"
+                android:background="@android:color/darker_gray" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:padding="5dp"
+                    android:text="Total"
+                    android:textColor="?attr/someTextColor"
+                    android:textSize="16dp"
+                    android:textStyle="bold"/>
+                <TextView
+                    android:layout_width="10dp"
+                    android:gravity="center"
+                    android:layout_height="wrap_content"
+                    android:text="="
+                    android:textStyle="bold"
+                    android:textColor="?attr/someTextColor"
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:id="@+id/food_total_price_history"
+                    android:layout_width="match_parent"
+                    android:layout_marginLeft="20dp"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:text="Rs. XXXXX"
+                    android:textStyle="bold"
+                    android:textColor="?attr/colorPrimary"
+                    android:textSize="15dp" />
+
+
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+</android.support.v7.widget.CardView>
