@@ -210,8 +210,7 @@ public class EditProfileActivity extends AppCompatActivity {
                                     progressBar.setVisibility(View.GONE);
                                     if (task.isSuccessful()) {
 
-                                        Snackbar.make((CoordinatorLayout) findViewById(R.id.profileLayout), "Successfully Updated", Snackbar.LENGTH_LONG)
-                                                .setAction("Action", null).show();
+                                        Toast.makeText(getApplicationContext(),"Successfully Updated",Toast.LENGTH_SHORT).show();
                                         try {
                                             Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
                                             startActivity(intent);
@@ -223,8 +222,7 @@ public class EditProfileActivity extends AppCompatActivity {
                                         }
 
                                     } else {
-                                        Snackbar.make((CoordinatorLayout) findViewById(R.id.profileLayout), "Failed to Update", Snackbar.LENGTH_LONG)
-                                                .setAction("Action", null).show();
+                                        Toast.makeText(getApplicationContext(),"Failed to Update",Toast.LENGTH_SHORT).show();
 
                                     }
                                 }
@@ -347,17 +345,14 @@ public class EditProfileActivity extends AppCompatActivity {
                                     progressBar.setVisibility(View.GONE);
                                     if (task.isSuccessful()) {
 
-                                        Snackbar.make((CoordinatorLayout) findViewById(R.id.profileLayout), "Successfully Updated", Snackbar.LENGTH_LONG)
-                                                .setAction("Action", null).show();
+                                        Toast.makeText(getApplicationContext(),"Successfully Updated",Toast.LENGTH_SHORT).show();
                                         Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
                                         startActivity(intent);
                                         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                                         EditProfileActivity.this.finish();
 
                                     } else {
-                                        Snackbar.make((CoordinatorLayout) findViewById(R.id.profileLayout), "Failed to Update", Snackbar.LENGTH_LONG)
-                                                .setAction("Action", null).show();
-
+                                        Toast.makeText(getApplicationContext(),"Failed to Update",Toast.LENGTH_SHORT).show();
                                     }
                                 }
                             });
@@ -365,8 +360,7 @@ public class EditProfileActivity extends AppCompatActivity {
                         }
                         else
                         {
-                            Snackbar.make((CoordinatorLayout) findViewById(R.id.profileLayout), "Failed to Update", Snackbar.LENGTH_LONG)
-                                    .setAction("Action", null).show();
+                            Toast.makeText(getApplicationContext(),"Failed to Update",Toast.LENGTH_SHORT).show();
 
                         }
             }
