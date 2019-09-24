@@ -251,11 +251,12 @@ public class FoodPostSingleActivity extends AppCompatActivity {
                             @Override
                             public void onClick(View view) {
                                 try {
+                                    vibrator.vibrate(20);
                                     Intent sinlePostIntent = new Intent(FoodPostSingleActivity.this, ItemUpdateActivity.class);
                                     sinlePostIntent.putExtra("update_item", post_key);
                                     startActivity(sinlePostIntent);
                                     overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-                                    FoodPostSingleActivity.this.finish();
+
                                 }catch (Exception e){
 
                                 }
@@ -344,6 +345,7 @@ public class FoodPostSingleActivity extends AppCompatActivity {
         postToCartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                vibrator.vibrate(20);
                 Cart cart = new Cart(
                             food_name,
                             food_expiry_date,

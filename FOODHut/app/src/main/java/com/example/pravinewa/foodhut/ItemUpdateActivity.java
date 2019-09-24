@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.ClipData;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -104,6 +105,8 @@ public class ItemUpdateActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 onBackPressed();
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+
             }
         });
 
@@ -348,6 +351,7 @@ public class ItemUpdateActivity extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 Toast.makeText(getApplicationContext(), "Successfull", Toast.LENGTH_SHORT).show();
+                                onBackPressed();
                             }
                         });
                     }
@@ -362,6 +366,7 @@ public class ItemUpdateActivity extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 Toast.makeText(getApplicationContext(), "Successfull", Toast.LENGTH_SHORT).show();
+                                onBackPressed();
                             }
                         });
                     }
@@ -419,4 +424,13 @@ public class ItemUpdateActivity extends AppCompatActivity {
             }
         }).show();
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+        ItemUpdateActivity.this.finish();
+    }
+
+
 }
