@@ -343,7 +343,11 @@ public class EditProfileActivity extends AppCompatActivity {
                                     progressBar.setVisibility(View.GONE);
                                     if (task.isSuccessful()) {
 
-                                        Toast.makeText(getApplicationContext(), "Successfull", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getApplicationContext(), "Successfully Updated", Toast.LENGTH_SHORT).show();
+                                        Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+                                        startActivity(intent);
+                                        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                                        EditProfileActivity.this.finish();
 
                                     } else {
                                         Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_SHORT).show();

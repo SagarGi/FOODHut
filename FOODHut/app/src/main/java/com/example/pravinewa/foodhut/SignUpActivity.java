@@ -296,6 +296,10 @@ public class SignUpActivity extends AppCompatActivity {
 
                                 Snackbar.make((CoordinatorLayout) findViewById(R.id.signUpLayout), "Verification email sent to " + user.getEmail(), Snackbar.LENGTH_LONG)
                                         .setAction("Action", null).show();
+                                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                                startActivity(intent);
+                                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                                SignUpActivity.this.finish();
 
 
                             } else {
