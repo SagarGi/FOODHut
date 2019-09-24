@@ -6,6 +6,8 @@ import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
 import android.view.View;
@@ -32,6 +34,7 @@ public class DeleteDialogCart extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog( Bundle savedInstanceState) {
+
         Bundle bundle = getArguments();
         post_key = bundle.getString("post_id");
 
@@ -49,6 +52,8 @@ public class DeleteDialogCart extends DialogFragment {
 
             }
         });
+
+
         return new AlertDialog.Builder(getActivity())
                 .setTitle("Remove Post")
                 .setMessage("Sure you wanna remove this?")
@@ -62,16 +67,8 @@ public class DeleteDialogCart extends DialogFragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
-//                        Bundle bundle = getArguments();
-//                        post_key = bundle.getString("post_id");
-
-
-//                        Log.d(TAG,"postuserid=" +postUserID);
-//                        Log.d(TAG,"post_key=" +post_key);
                         DatabaseReference postDeleteCart = FirebaseDatabase.getInstance().getReference("Cart").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(post_key);
-//                        DatabaseReference postDeleteIntrested = FirebaseDatabase.getInstance().getReference("WishList").child(postUserID).child(post_key);
                         postDeleteCart.removeValue();
-//                        postDeleteIntrested.removeValue();
 
                     }
                 })

@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:background="?attr/backgroundColor"
     android:orientation="vertical"
+    android:id="@+id/profileLayout"
     tools:context=".ProfileActivity">
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appBarProfile"

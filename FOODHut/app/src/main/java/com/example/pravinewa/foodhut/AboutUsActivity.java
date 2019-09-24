@@ -66,6 +66,8 @@ public class AboutUsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 onBackPressed();
+                Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                startActivity(intent);
                 overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
                 finish();
             }
@@ -77,6 +79,8 @@ public class AboutUsActivity extends AppCompatActivity {
     @Override
     public void onBackPressed(){
         super.onBackPressed();
+        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+        startActivity(intent);
         overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
         finish();
     }

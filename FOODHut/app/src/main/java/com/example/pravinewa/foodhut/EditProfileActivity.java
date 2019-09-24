@@ -117,6 +117,8 @@ public class EditProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 onBackPressed();
+                Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+                startActivity(intent);
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 finish();
             }
@@ -156,12 +158,20 @@ public class EditProfileActivity extends AppCompatActivity {
                 final String profile_Image = (String) dataSnapshot.child("profileUrl").getValue();
                 if(profile_Image.equals("null"))
                 {
-                    Bitmap Icon = BitmapFactory.decodeResource(getResources(),R.drawable.blank_profile);
-                    profileImage.setImageBitmap(Icon);
+                    try {
+                        Bitmap Icon = BitmapFactory.decodeResource(getResources(), R.drawable.blank_profile);
+                        profileImage.setImageBitmap(Icon);
+                    }catch (Exception e){
+
+                    }
                 }
                 else
                 {
-                    Picasso.get().load(profile_Image).into(profileImage);
+                    try {
+                        Picasso.get().load(profile_Image).into(profileImage);
+                    }catch (Exception e){
+
+                    }
                 }
 
                 String  oldName = (String)dataSnapshot.child("fullname").getValue();
@@ -199,10 +209,15 @@ public class EditProfileActivity extends AppCompatActivity {
                                     if (task.isSuccessful()) {
 
                                         Toast.makeText(getApplicationContext(), "Successfull", Toast.LENGTH_SHORT).show();
-                                        Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
-                                        startActivity(intent);
-                                        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-                                        EditProfileActivity.this.finish();
+                                        try {
+                                            Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+                                            startActivity(intent);
+                                            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                                            EditProfileActivity.this.finish();
+
+                                        }catch (Exception e){
+
+                                        }
 
                                     } else {
                                         Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_SHORT).show();
@@ -263,12 +278,16 @@ public class EditProfileActivity extends AppCompatActivity {
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                User user = dataSnapshot.getValue(User.class);
-                updatedName = updateName.getText().toString().trim();
-                updatedContact = updateContact.getText().toString().trim();
-                updatedAddress = updateAddress.getText().toString().trim();
-                oldEmail = user.getEmail();
-                updateProfileUrl = user.getProfileUrl();
+                try {
+                    User user = dataSnapshot.getValue(User.class);
+                    updatedName = updateName.getText().toString().trim();
+                    updatedContact = updateContact.getText().toString().trim();
+                    updatedAddress = updateAddress.getText().toString().trim();
+                    oldEmail = user.getEmail();
+                    updateProfileUrl = user.getProfileUrl();
+                }catch (Exception e){
+
+                }
             }
 
             @Override

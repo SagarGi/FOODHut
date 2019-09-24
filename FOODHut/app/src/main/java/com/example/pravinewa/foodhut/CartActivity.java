@@ -8,6 +8,8 @@ import android.os.Handler;
 import android.os.Vibrator;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -156,11 +158,15 @@ public class CartActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String chk = checkOut.getText().toString();
 //                Toast.makeText(getApplicationContext(),chk,Toast.LENGTH_SHORT).show();
+                try {
+                    if (chk.equals("Checkout (Rs. 00.00)")) {
+                        Snackbar.make((CoordinatorLayout) findViewById(R.id.cartLayout), "Please select item first!!", Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
+                    } else {
+                        showPlaceOrderDialog(totalPrice);
+                    }
+                }catch (Exception e){
 
-                if (chk.equals("Checkout (Rs. 00.00)")) {
-                    Toast.makeText(getApplicationContext(), "Please select item first.", Toast.LENGTH_SHORT).show();
-                } else {
-                    showPlaceOrderDialog(totalPrice);
                 }
             }
         });
@@ -181,6 +187,8 @@ public class CartActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 onBackPressed();
+                Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                startActivity(intent);
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 finish();
             }
@@ -196,30 +204,32 @@ public class CartActivity extends AppCompatActivity {
                 final String post_key = getRef(position).getKey();
                 notFounded.add(post_key);
                 final int pos = position;
-                Picasso.get().load(model.getFoodImage()).into(holder.foodImg, new Callback() {
-                    @Override
-                    public void onSuccess() {
+                try {
+                    Picasso.get().load(model.getFoodImage()).into(holder.foodImg, new Callback() {
+                        @Override
+                        public void onSuccess() {
 
-                    }
+                        }
 
-                    @Override
-                    public void onError(Exception e) {
-                        Toast.makeText(getApplicationContext(), "Error on load image Cart", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                        @Override
+                        public void onError(Exception e) {
+                            Toast.makeText(getApplicationContext(), "Error on load image Cart", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }catch (Exception e){
 
+                }
                 final String foodNameC = model.getFoodName();
                 final String foodExpiryC = model.getFoodExpiry();
                 final long food_price = model.getFoodPrice();
                 final long food_quantity = model.getFoodQuantity();
 
-                holder.foodQuantity.setText(""+food_quantity);
+                holder.foodQuantity.setText("" + food_quantity);
                 holder.foodName.setText(foodNameC);
                 holder.foodExpiryDate.setText(foodExpiryC);
                 holder.foodPrice.setText("Rs. " + food_price);
                 foodPriceCart = food_price;
                 final long totalThisPrice = food_price * food_quantity;
-
 
 
                 holder.cartChecked.setOnClickListener(new View.OnClickListener() {
@@ -229,33 +239,43 @@ public class CartActivity extends AppCompatActivity {
                         FirebaseDatabase.getInstance().getReference("Post").addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                if(dataSnapshot.hasChild(post_key)){
-                                    if (holder.cartChecked.isChecked()) {
+                                if (dataSnapshot.hasChild(post_key)) {
+                                    try {
+                                        if (holder.cartChecked.isChecked()) {
 
-                                        cartlist.add(post_key);
-                                        totalPrice = totalPrice + totalThisPrice;
-                                        checkOut.setText("Checkout (Rs. " + totalPrice + ")");
+                                            cartlist.add(post_key);
+                                            totalPrice = totalPrice + totalThisPrice;
+                                            checkOut.setText("Checkout (Rs. " + totalPrice + ")");
 
-                                    } else if (!holder.cartChecked.isChecked()) {
-                                        cartlist.remove(post_key);
-                                        totalPrice = totalPrice - totalThisPrice;
-                                        checkOut.setText("Checkout (Rs. " + totalPrice + ")");
+                                        } else if (!holder.cartChecked.isChecked()) {
+                                            cartlist.remove(post_key);
+                                            totalPrice = totalPrice - totalThisPrice;
+                                            checkOut.setText("Checkout (Rs. " + totalPrice + ")");
+                                        }
+                                    }catch (Exception e){
+
                                     }
-                                }else{
-                                    holder.cartChecked.setChecked(false);
-                                    AlertDialog.Builder builder = new AlertDialog.Builder(CartActivity.this);
-                                    builder.setMessage("This items has been deleted by Owner, Press OK to remove from Cart.")
-                                            .setCancelable(false)
-                                            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                                                public void onClick(DialogInterface dialog, int id) {
-                                                    DatabaseReference postDeleteCart = FirebaseDatabase.getInstance().getReference("Cart").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(post_key);
-                                                    postDeleteCart.removeValue();
-                                                }
-                                            });
+                                } else {
+                                    try {
+                                        holder.cartChecked.setChecked(false);
+                                        AlertDialog.Builder builder = new AlertDialog.Builder(CartActivity.this);
+                                        builder.setMessage("This items has been deleted by Owner, Press OK to remove from Cart.")
+                                                .setCancelable(false)
+                                                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                                    public void onClick(DialogInterface dialog, int id) {
+                                                        DatabaseReference postDeleteCart = FirebaseDatabase.getInstance().getReference("Cart").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(post_key);
+                                                        postDeleteCart.removeValue();
+                                                        Snackbar.make((CoordinatorLayout) findViewById(R.id.cartLayout), "Removed from cart Sucessfully!!", Snackbar.LENGTH_LONG)
+                                                                .setAction("Action", null).show();
 
-                                    AlertDialog alert = builder.create();
-                                    alert.show();
+                                                    }
+                                                });
 
+                                        AlertDialog alert = builder.create();
+                                        alert.show();
+                                    }catch (Exception e){
+
+                                    }
                                 }
                             }
 
@@ -265,33 +285,44 @@ public class CartActivity extends AppCompatActivity {
                             }
                         });
 
- }
+                    }
                 });
 
 
-//                holder.itemView.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        Intent sinlePostIntent = new Intent(CartActivity.this, FoodPostSingleActivity.class);
-//                        sinlePostIntent.putExtra("post_id", post_key);
-//                        startActivity(sinlePostIntent);
-//                    }
-//                });
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        try {
+                            Intent sinlePostIntent = new Intent(CartActivity.this, FoodPostSingleActivity.class);
+                            sinlePostIntent.putExtra("post_id", post_key);
+                            startActivity(sinlePostIntent);
+                            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                            CartActivity.this.finish();
+                        }catch (Exception e){
+
+                        }
+                    }
+                });
 
                 holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View v) {
-                        vibrator.vibrate(30);
+                        try {
+                            vibrator.vibrate(30);
 //                        Toast.makeText(getApplicationContext(),"Longed Click",Toast.LENGTH_SHORT).show();
-                        vibrator = (Vibrator) getApplicationContext().getSystemService(VIBRATOR_SERVICE);
+                            vibrator = (Vibrator) getApplicationContext().getSystemService(VIBRATOR_SERVICE);
 
-                        vibrator.vibrate(30);
-                        Bundle bundle = new Bundle();
-                        bundle.putString("post_id", post_key);
-                        DeleteDialogCart deleteDialogCart = new DeleteDialogCart();
-                        deleteDialogCart.setCancelable(false);
-                        deleteDialogCart.setArguments(bundle);
-                        deleteDialogCart.show(getSupportFragmentManager(), "dialog");
+                            vibrator.vibrate(30);
+                            Bundle bundle = new Bundle();
+                            bundle.putString("post_id", post_key);
+                            DeleteDialogCart deleteDialogCart = new DeleteDialogCart();
+                            deleteDialogCart.setCancelable(false);
+                            deleteDialogCart.setArguments(bundle);
+                            deleteDialogCart.show(getSupportFragmentManager(), "dialog");
+                        } catch (Exception e) {
+
+                        }
+
                         return false;
                     }
                 });
@@ -333,7 +364,6 @@ public class CartActivity extends AppCompatActivity {
     }
 
 
-
     public void showPlaceOrderDialog(long total) {
 
         ViewGroup viewGroup = findViewById(android.R.id.content);
@@ -345,64 +375,111 @@ public class CartActivity extends AppCompatActivity {
         alertDialog.setCancelable(true);
         alertDialog.setView(dialogView);
         totPlaceOrder = (TextView) dialogView.findViewById(R.id.placeOrderTotalAmount);
-        totPlaceOrder.setText("Total Amount : Rs. "+total);
+        totPlaceOrder.setText("Total Amount : Rs. " + total);
         newAddressText = (EditText) dialogView.findViewById(R.id.newShippingAddress);
         iWishCheckBox = dialogView.findViewById(R.id.iwishChechBox);
 
 
-            placeOrder = (Button) dialogView.findViewById(R.id.confirmPlaceOrder);
-            placeOrder.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if(iWishCheckBox.isChecked())
-                    {
-                        DatabaseReference  mDatabaseRef = FirebaseDatabase.getInstance().getReference().child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
-                        mDatabaseRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                final String currentUserName = (String) dataSnapshot.child("fullname").getValue();
-                                final String currentuserContact = (String) dataSnapshot.child("phone").getValue();
-                                final String currentUserAddress = (String) dataSnapshot.child("address").getValue();
+        placeOrder = (Button) dialogView.findViewById(R.id.confirmPlaceOrder);
+        placeOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (iWishCheckBox.isChecked()) {
+                    DatabaseReference mDatabaseRef = FirebaseDatabase.getInstance().getReference().child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                    mDatabaseRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            final String currentUserName = (String) dataSnapshot.child("fullname").getValue();
+                            final String currentuserContact = (String) dataSnapshot.child("phone").getValue();
+                            final String currentUserAddress = (String) dataSnapshot.child("address").getValue();
 
 
-                                for(int i=0;i<cartlist.size();i++){
-                                    final String pKey = cartlist.get(i);
+                            for (int i = 0; i < cartlist.size(); i++) {
+                                final String pKey = cartlist.get(i);
 
-                                    try {
-                                        final DatabaseReference databaseReference1 = FirebaseDatabase.getInstance().getReference("Post").child(pKey);
-                                        databaseReference1.addListenerForSingleValueEvent(new ValueEventListener() {
-                                            @Override
-                                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                                Food food = dataSnapshot.getValue(Food.class);
-                                                final long PostQuant = food.getStockNo();
-                                                final String ownerId = food.getUserID();
+                                try {
+                                    final DatabaseReference databaseReference1 = FirebaseDatabase.getInstance().getReference("Post").child(pKey);
+                                    databaseReference1.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                            Food food = dataSnapshot.getValue(Food.class);
+                                            final long PostQuant = food.getStockNo();
+                                            final String ownerId = food.getUserID();
 //                                    DatabaseReference userReference = FirebaseDatabase.getInstance().getReference("User").child(ownerId);
 //                                    String userAddress = userReference.child("address").toString();
 
-                                                final DatabaseReference databaseReference2 = FirebaseDatabase.getInstance().getReference("Cart").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(pKey);
-                                                databaseReference2.addValueEventListener(new ValueEventListener() {
-                                                    @Override
-                                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                                        try{
+                                            final DatabaseReference databaseReference2 = FirebaseDatabase.getInstance().getReference("Cart").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(pKey);
+                                            databaseReference2.addValueEventListener(new ValueEventListener() {
+                                                @Override
+                                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                    try {
 
 
-                                                            //owner info
+                                                        //owner info
 
-                                                            DateFormat df = new SimpleDateFormat("EEE, d MMM yyyy, HH:mm");
-                                                            final String date = df.format(Calendar.getInstance().getTime());
-                                                            String newAddresss = newAddressText.getText().toString().trim();
+                                                        DateFormat df = new SimpleDateFormat("EEE, d MMM yyyy, HH:mm");
+                                                        final String date = df.format(Calendar.getInstance().getTime());
+                                                        String newAddresss = newAddressText.getText().toString().trim();
 
 
-                                                            final String order_id = FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).push().getKey();
+                                                        final String order_id = FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).push().getKey();
 
-                                                            if(shipped == "currentAddress"){
+                                                        if (shipped == "currentAddress") {
+                                                            Cart cart = dataSnapshot.getValue(Cart.class);
+                                                            long cartQuant = cart.getFoodQuantity();
+                                                            long totalQuant = PostQuant - cartQuant;
+                                                            String foodName = cart.getFoodName();
+                                                            String foodImage = cart.getFoodImage();
+                                                            long foodPrice = cart.getFoodPrice();
+                                                            long totalPrice = foodPrice * cartQuant;
+                                                            FirebaseDatabase.getInstance().getReference("Post").child(pKey).child("stockNo").setValue(totalQuant);
+                                                            HistoryOrder historyOrder = new HistoryOrder(
+                                                                    foodName,
+                                                                    foodImage,
+                                                                    foodPrice,
+                                                                    cartQuant,
+                                                                    totalPrice
+                                                            );
+                                                            String history_id = FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).push().getKey();
+                                                            FirebaseDatabase.getInstance().getReference("History")
+                                                                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                                                    .child(history_id)
+                                                                    .setValue(historyOrder).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                @Override
+                                                                public void onComplete(@NonNull Task<Void> task) {
+//                                                                    Toast.makeText(getApplicationContext(), "Checkout Successfully", Toast.LENGTH_SHORT).show();
+                                                                }
+                                                            });
+                                                            IntrestedItem intrested = new IntrestedItem(currentUserName, currentuserContact, foodName, date, cartQuant, totalPrice, foodPrice, currentUserAddress);
+                                                            FirebaseDatabase.getInstance().getReference("Order")
+                                                                    .child(ownerId)
+                                                                    .child(order_id)
+                                                                    .setValue(intrested).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                @Override
+                                                                public void onComplete(@NonNull Task<Void> task) {
+                                                                    Snackbar.make((CoordinatorLayout) findViewById(R.id.cartLayout), "Your Item Has Been Confirmed!!", Snackbar.LENGTH_LONG)
+                                                                            .setAction("Action", null).show();
+                                                                    alertDialog.dismiss();
+
+                                                                }
+                                                            });
+                                                            databaseReference2.removeValue();
+                                                            cartlist.clear();
+
+                                                        } else if (shipped == "newAddress") {
+
+                                                            if (newAddresss.isEmpty()) {
+                                                                newAddressText.setError("Price Required!!");
+                                                                newAddressText.requestFocus();
+                                                                return;
+                                                            } else {
                                                                 Cart cart = dataSnapshot.getValue(Cart.class);
                                                                 long cartQuant = cart.getFoodQuantity();
                                                                 long totalQuant = PostQuant - cartQuant;
                                                                 String foodName = cart.getFoodName();
                                                                 String foodImage = cart.getFoodImage();
                                                                 long foodPrice = cart.getFoodPrice();
-                                                                long totalPrice = foodPrice*cartQuant;
+                                                                long totalPrice = foodPrice * cartQuant;
                                                                 FirebaseDatabase.getInstance().getReference("Post").child(pKey).child("stockNo").setValue(totalQuant);
                                                                 HistoryOrder historyOrder = new HistoryOrder(
                                                                         foodName,
@@ -418,142 +495,96 @@ public class CartActivity extends AppCompatActivity {
                                                                         .setValue(historyOrder).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                                     @Override
                                                                     public void onComplete(@NonNull Task<Void> task) {
-                                                                        Toast.makeText(getApplicationContext(),"Checkout Successfully",Toast.LENGTH_SHORT).show();
+//                                                                        Toast.makeText(getApplicationContext(), "Checkout Successfully", Toast.LENGTH_SHORT).show();
                                                                     }
                                                                 });
-                                                                IntrestedItem intrested = new IntrestedItem(currentUserName, currentuserContact, foodName, date, cartQuant,totalPrice,foodPrice,currentUserAddress);
+                                                                IntrestedItem intrested = new IntrestedItem(currentUserName, currentuserContact, foodName, date, cartQuant, totalPrice, foodPrice, newAddresss);
                                                                 FirebaseDatabase.getInstance().getReference("Order")
                                                                         .child(ownerId)
                                                                         .child(order_id)
                                                                         .setValue(intrested).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                                     @Override
                                                                     public void onComplete(@NonNull Task<Void> task) {
-                                                                        Toast.makeText(getApplicationContext(), "Your Item Has Been Confirmed!!!", Toast.LENGTH_SHORT).show();
+                                                                        Snackbar.make((CoordinatorLayout) findViewById(R.id.cartLayout), "Your Item Has Been Confirmed!!", Snackbar.LENGTH_LONG)
+                                                                                .setAction("Action", null).show();
                                                                         alertDialog.dismiss();
 
                                                                     }
                                                                 });
                                                                 databaseReference2.removeValue();
                                                                 cartlist.clear();
-
-                                                            }else if(shipped == "newAddress"){
-
-                                                                if(newAddresss.isEmpty())
-                                                                {
-                                                                    newAddressText.setError("Price Required!!");
-                                                                    newAddressText.requestFocus();
-                                                                    return;
-                                                                }
-                                                                else {
-                                                                    Cart cart = dataSnapshot.getValue(Cart.class);
-                                                                    long cartQuant = cart.getFoodQuantity();
-                                                                    long totalQuant = PostQuant - cartQuant;
-                                                                    String foodName = cart.getFoodName();
-                                                                    String foodImage = cart.getFoodImage();
-                                                                    long foodPrice = cart.getFoodPrice();
-                                                                    long totalPrice = foodPrice*cartQuant;
-                                                                    FirebaseDatabase.getInstance().getReference("Post").child(pKey).child("stockNo").setValue(totalQuant);
-                                                                    HistoryOrder historyOrder = new HistoryOrder(
-                                                                            foodName,
-                                                                            foodImage,
-                                                                            foodPrice,
-                                                                            cartQuant,
-                                                                            totalPrice
-                                                                    );
-                                                                    String history_id = FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).push().getKey();
-                                                                    FirebaseDatabase.getInstance().getReference("History")
-                                                                            .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                                                                            .child(history_id)
-                                                                            .setValue(historyOrder).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                                        @Override
-                                                                        public void onComplete(@NonNull Task<Void> task) {
-                                                                            Toast.makeText(getApplicationContext(),"Checkout Successfully",Toast.LENGTH_SHORT).show();
-                                                                        }
-                                                                    });
-                                                                    IntrestedItem intrested = new IntrestedItem(currentUserName, currentuserContact, foodName, date, cartQuant, totalPrice, foodPrice, newAddresss);
-                                                                    FirebaseDatabase.getInstance().getReference("Order")
-                                                                            .child(ownerId)
-                                                                            .child(order_id)
-                                                                            .setValue(intrested).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                                        @Override
-                                                                        public void onComplete(@NonNull Task<Void> task) {
-                                                                            Toast.makeText(getApplicationContext(), "Your Item Has Been Confirmed!!!", Toast.LENGTH_SHORT).show();
-                                                                            alertDialog.dismiss();
-
-                                                                        }
-                                                                    });
-                                                                    databaseReference2.removeValue();
-                                                                    cartlist.clear();
-                                                                }
                                                             }
-
-
-
-
-                                                        }catch (Exception e){
-
                                                         }
+
+
+                                                    } catch (Exception e) {
+
                                                     }
+                                                }
 
-                                                    @Override
-                                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                                                @Override
+                                                public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                                                    }
-                                                });
+                                                }
+                                            });
 
 
-                                            }
+                                        }
 
-                                            @Override
-                                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                                            }
-                                        });
-                                    }catch (Exception e){
-
-                                    }
+                                        }
+                                    });
+                                } catch (Exception e) {
 
                                 }
 
-
                             }
 
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                            }
-                        });
-                    }
-                    else
-                    {
-                        Toast.makeText(getApplicationContext(), "Please Fill the CheckBox if you wish to proceed!!", Toast.LENGTH_SHORT).show();
+                        }
 
-                    }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+                } else {
+                    Toast.makeText(getApplicationContext(), "Please Fill the CheckBox if you wish to proceed!!", Toast.LENGTH_SHORT).show();
 
                 }
 
-            });
+            }
+
+        });
 
 
     }
 
-    public void onRadioButtonClicked(View view){
+    public void onRadioButtonClicked(View view) {
         boolean checked = ((RadioButton) view).isChecked();
 
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.currentAddressButton:
-                if(checked)
-                {
-                     newAddressText.setText("");
-                    newAddressText.setEnabled(false);
-                    shipped = "currentAddress";
+                if (checked) {
+                    try {
+                        newAddressText.setText("");
+                        newAddressText.setEnabled(false);
+                        shipped = "currentAddress";
+                    }catch (Exception e){
+
+                    }
                 }
                 break;
             case R.id.newAddressButton:
-                if(checked)
-                {
-                    newAddressText.setEnabled(true);
-                    shipped = "newAddress";
+                if (checked) {
+                    try {
+                        newAddressText.setEnabled(true);
+                        shipped = "newAddress";
+                    }catch (Exception e){
+
+                    }
                 }
                 break;
         }
@@ -570,15 +601,18 @@ public class CartActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem menuItem) {
 
         switch (menuItem.getItemId()) {
-            case R.id.historyButton :
-                openHistory();
-                break;
+            case R.id.historyButton:
+                try {
+                    openHistory();
+                    break;
+                }catch (Exception e){
 
+                }
         }
         return super.onOptionsItemSelected(menuItem);
     }
 
-    public void openHistory(){
+    public void openHistory() {
         Intent intent = new Intent(getApplicationContext(), HistoryOrderActivity.class);
         startActivity(intent);
         CartActivity.this.finish();
@@ -589,6 +623,8 @@ public class CartActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+        startActivity(intent);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         cartlist.clear();
         notFounded.clear();

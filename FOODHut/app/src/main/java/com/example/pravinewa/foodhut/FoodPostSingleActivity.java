@@ -4,8 +4,11 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Vibrator;
 import android.support.annotation.NonNull;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -74,6 +77,7 @@ public class FoodPostSingleActivity extends AppCompatActivity {
     EditText newAddressText;
     Button placeOrder;
 
+    Vibrator vibrator;
     CheckBox iWishCheckBox;
     String shipped = "currentAddress";
 
@@ -112,6 +116,8 @@ public class FoodPostSingleActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_food_post_single);
+        vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+
         tvPriceItemDetails = findViewById(R.id.tvpriceItemDetails);
         tvNameItemDetails = findViewById(R.id.tvNameItemDetails);
         tvStockItemDetails = findViewById(R.id.tvStockItemDetails);
@@ -135,6 +141,7 @@ public class FoodPostSingleActivity extends AppCompatActivity {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                vibrator.vibrate(15);
                 quantity = quantity + 1;
                 addStockNumber.setText(""+quantity);
             }
@@ -143,6 +150,7 @@ public class FoodPostSingleActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(quantity>1) {
+                    vibrator.vibrate(15);
                     quantity = quantity - 1;
                     addStockNumber.setText("" + quantity);
                 }
@@ -157,6 +165,8 @@ public class FoodPostSingleActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 onBackPressed();
+                Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                startActivity(intent);
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 finish();
             }
@@ -240,9 +250,15 @@ public class FoodPostSingleActivity extends AppCompatActivity {
                         postToCartButton.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                Intent sinlePostIntent = new Intent(FoodPostSingleActivity.this, ItemUpdateActivity.class);
-                                sinlePostIntent.putExtra("update_item", post_key);
-                                startActivity(sinlePostIntent);
+                                try {
+                                    Intent sinlePostIntent = new Intent(FoodPostSingleActivity.this, ItemUpdateActivity.class);
+                                    sinlePostIntent.putExtra("update_item", post_key);
+                                    startActivity(sinlePostIntent);
+                                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                                    FoodPostSingleActivity.this.finish();
+                                }catch (Exception e){
+
+                                }
                             }
                         });
                     }
@@ -265,7 +281,11 @@ public class FoodPostSingleActivity extends AppCompatActivity {
                             tvContactPostedBy.setText(phone);
                             tvLocationLocation.setText(address);
 
-                            Picasso.get().load(food_image).into(foodImage);
+                            try {
+                                Picasso.get().load(food_image).into(foodImage);
+                            }catch (Exception e){
+
+                            }
                             if (food_status.equals("Donate")) {
                                 tvPriceItemDetails.setText(String.valueOf(food_price));
                             } else {
@@ -310,9 +330,13 @@ public class FoodPostSingleActivity extends AppCompatActivity {
         callOwner.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+            try {
                 Intent callIntent = new Intent(Intent.ACTION_DIAL);
                 callIntent.setData(Uri.parse("tel:" + phone));
                 startActivity(callIntent);
+            }catch (Exception e){
+
+            }
             }
         });
 
@@ -327,18 +351,22 @@ public class FoodPostSingleActivity extends AppCompatActivity {
                             food_price,
                             quantity
                     );
+                try {
                     FirebaseDatabase.getInstance().getReference("Cart")
                             .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                             .child(post_key)
                             .setValue(cart).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
-                                            Toast.makeText(getApplicationContext(), "Added to Cart", Toast.LENGTH_SHORT).show();
+                            Snackbar.make((CoordinatorLayout) findViewById(R.id.foodPostLayout), quantity + " item added to Cart!!", Snackbar.LENGTH_LONG)
+                                    .setAction("Action", null).show();
 
-                                }
+                        }
 
                     });
+                }catch (Exception e){
 
+                }
                 }
             });
 
@@ -367,23 +395,27 @@ public class FoodPostSingleActivity extends AppCompatActivity {
                         food_image,
                         user_id
                 );
+                try {
+                    FirebaseDatabase.getInstance().getReference("AdminReport")
+                            .child(post_key)
+                            .setValue(admin).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                Snackbar.make((CoordinatorLayout) findViewById(R.id.foodPostLayout), "Reported Successfully!!", Snackbar.LENGTH_LONG)
+                                        .setAction("Action", null).show();
+                                reportBut.setVisibility(View.GONE);
+                                ReportView = "Gone";
+                            } else {
+                                Snackbar.make((CoordinatorLayout) findViewById(R.id.foodPostLayout), "Reported Failed!!", Snackbar.LENGTH_LONG)
+                                        .setAction("Action", null).show();
 
-                FirebaseDatabase.getInstance().getReference("AdminReport")
-                        .child(post_key)
-                        .setValue(admin).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            Toast.makeText(getApplicationContext(), "Report Successfully", Toast.LENGTH_SHORT).show();
-                            reportBut.setVisibility(View.GONE);
-                            ReportView = "Gone";
-                        } else {
-                            Toast.makeText(getApplicationContext(), "Report Failed", Toast.LENGTH_SHORT).show();
-
+                            }
                         }
-                    }
-                });
+                    });
+                }catch (Exception e){
 
+                }
             }
         });
 
@@ -535,6 +567,8 @@ public class FoodPostSingleActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+        startActivity(intent);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         finish();
     }

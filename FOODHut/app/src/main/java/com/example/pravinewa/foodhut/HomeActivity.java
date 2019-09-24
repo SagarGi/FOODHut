@@ -14,6 +14,7 @@ import android.os.Vibrator;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -49,8 +50,11 @@ import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.common.internal.Objects;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -92,6 +96,8 @@ public class HomeActivity extends AppCompatActivity {
 
     String layouts = "grid";
     Boolean NetworkStatus = false;
+    public int cart_count = 0;
+    Boolean lightTheme = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +108,7 @@ public class HomeActivity extends AppCompatActivity {
         if (sharedPref.loadDarkModeState() == true || sharedPref.loadLightModeState() == true) {
             if (sharedPref.loadLightModeState() == true) {
                 setTheme(R.style.LightTheme);
+                lightTheme = true;
                 decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
                 if (Build.VERSION.SDK_INT >= 21) {
                     window = this.getWindow();
@@ -130,11 +137,15 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         homeId = (CoordinatorLayout) findViewById(R.id.homeView);
 
-        if (!isNetworkConnected(HomeActivity.this)) {
-            NetworkStatus = false;
-            buildDialog(HomeActivity.this).show();
-        } else {
-            NetworkStatus = true;
+        try {
+            if (!isNetworkConnected(HomeActivity.this)) {
+                NetworkStatus = false;
+                buildDialog(HomeActivity.this).show();
+            } else {
+                NetworkStatus = true;
+            }
+        } catch (Exception e) {
+
         }
 
         firebaseAuth = FirebaseAuth.getInstance();
@@ -160,6 +171,7 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
+
         vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
 
         recyclerView = (RecyclerView) findViewById(R.id.food_post_list);
@@ -183,23 +195,36 @@ public class HomeActivity extends AppCompatActivity {
 
                 switch (index) {
                     case 0:
-                        recyclerOptions = new FirebaseRecyclerOptions.Builder<Food>()
-                                .setQuery(databaseReference, Food.class).build();
-                        viewPostRecent();
-                        onResume();
-                        break;
+                        try {
+                            recyclerOptions = new FirebaseRecyclerOptions.Builder<Food>()
+                                    .setQuery(databaseReference, Food.class).build();
+                            viewPostRecent();
+                            onResume();
+                            break;
+                        } catch (Exception e) {
+
+                        }
                     case 1:
-                        recyclerOptions = new FirebaseRecyclerOptions.Builder<Food>()
-                                .setQuery(databaseReference.orderByChild("itemExpiryDate").startAt("2019-08-27").endAt("2030-08-27"), Food.class).build();
-                        viewPost();
-                        onResume();
-                        break;
+                        try {
+                            recyclerOptions = new FirebaseRecyclerOptions.Builder<Food>()
+                                    .setQuery(databaseReference.orderByChild("itemExpiryDate").startAt("2019-08-27").endAt("2030-08-27"), Food.class).build();
+                            viewPost();
+                            onResume();
+                            break;
+                        } catch (Exception e) {
+
+                        }
                     case 2:
-                        recyclerOptions = new FirebaseRecyclerOptions.Builder<Food>()
-                                .setQuery(databaseReference.orderByChild("itemPrice").startAt(1), Food.class).build();
-                        viewPostPrice();
-                        onResume();
-                        break;
+                        try {
+                            ;
+                            recyclerOptions = new FirebaseRecyclerOptions.Builder<Food>()
+                                    .setQuery(databaseReference.orderByChild("itemPrice").startAt(1), Food.class).build();
+                            viewPostPrice();
+                            onResume();
+                            break;
+                        } catch (Exception e) {
+
+                        }
                 }
 
             }
@@ -210,20 +235,23 @@ public class HomeActivity extends AppCompatActivity {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (NetworkStatus) {
-                    if (mUser != null && mUser.isEmailVerified()) {
-                        openAddFoodActivity();
+                try {
+                    if (NetworkStatus) {
+                        if (mUser != null && mUser.isEmailVerified()) {
+                            openAddFoodActivity();
 
+                        } else {
+                            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                            vibrator.vibrate(20);
+                            startActivity(intent);
+                            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                        }
                     } else {
-                        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                        vibrator.vibrate(20);
-                        startActivity(intent);
-                        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                        buildDialog(HomeActivity.this).show();
                     }
-                } else {
-                    buildDialog(HomeActivity.this).show();
-                }
+                } catch (Exception e) {
 
+                }
             }
         });
 
@@ -236,62 +264,86 @@ public class HomeActivity extends AppCompatActivity {
         defaultBut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openDefaultCategory();
-                recyclerOptions = new FirebaseRecyclerOptions.Builder<Food>()
-                        .setQuery(databaseReference, Food.class).build();
-                viewPostRecent();
-                onResume();
+                try {
+                    openDefaultCategory();
+                    recyclerOptions = new FirebaseRecyclerOptions.Builder<Food>()
+                            .setQuery(databaseReference, Food.class).build();
+                    viewPostRecent();
+                    onResume();
+                } catch (Exception e) {
+
+                }
             }
         });
         vegetableBut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openVegetableCategory();
-                recyclerOptions = new FirebaseRecyclerOptions.Builder<Food>()
-                        .setQuery(databaseReference.orderByChild("itemCategory").equalTo("Vegetables"), Food.class).build();
-                viewPost();
-                onResume();
+                try {
+                    openVegetableCategory();
+                    recyclerOptions = new FirebaseRecyclerOptions.Builder<Food>()
+                            .setQuery(databaseReference.orderByChild("itemCategory").equalTo("Vegetables"), Food.class).build();
+                    viewPost();
+                    onResume();
+                } catch (Exception e) {
+
+                }
             }
         });
         fruitBut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openFruitCategory();
-                recyclerOptions = new FirebaseRecyclerOptions.Builder<Food>()
-                        .setQuery(databaseReference.orderByChild("itemCategory").equalTo("Fruits"), Food.class).build();
-                viewPost();
-                onResume();
+                try {
+                    openFruitCategory();
+                    recyclerOptions = new FirebaseRecyclerOptions.Builder<Food>()
+                            .setQuery(databaseReference.orderByChild("itemCategory").equalTo("Fruits"), Food.class).build();
+                    viewPost();
+                    onResume();
+                } catch (Exception e) {
+
+                }
             }
         });
         cookBut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openCookCategory();
-                recyclerOptions = new FirebaseRecyclerOptions.Builder<Food>()
-                        .setQuery(databaseReference.orderByChild("itemCategory").equalTo("Food"), Food.class).build();
-                viewPost();
-                onResume();
+                try {
+                    openCookCategory();
+                    recyclerOptions = new FirebaseRecyclerOptions.Builder<Food>()
+                            .setQuery(databaseReference.orderByChild("itemCategory").equalTo("Food"), Food.class).build();
+                    viewPost();
+                    onResume();
+                } catch (Exception e) {
+
+                }
             }
         });
         fridgeBut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openFridgeCategory();
-                recyclerOptions = new FirebaseRecyclerOptions.Builder<Food>()
-                        .setQuery(databaseReference.orderByChild("itemCategory").equalTo("Groceries"), Food.class).build();
-                viewPost();
-                onResume();
+                try {
+                    openFridgeCategory();
+                    recyclerOptions = new FirebaseRecyclerOptions.Builder<Food>()
+                            .setQuery(databaseReference.orderByChild("itemCategory").equalTo("Groceries"), Food.class).build();
+                    viewPost();
+                    onResume();
+                } catch (Exception e) {
+
+                }
             }
         });
 
         itemForDonation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openDonation();
-                recyclerOptions = new FirebaseRecyclerOptions.Builder<Food>()
-                        .setQuery(databaseReference.orderByChild("itemStatus").equalTo("Donate"), Food.class).build();
-                viewPost();
-                onResume();
+                try {
+                    openDonation();
+                    recyclerOptions = new FirebaseRecyclerOptions.Builder<Food>()
+                            .setQuery(databaseReference.orderByChild("itemStatus").equalTo("Donate"), Food.class).build();
+                    viewPost();
+                    onResume();
+                } catch (Exception e) {
+
+                }
             }
         });
 
@@ -299,6 +351,24 @@ public class HomeActivity extends AppCompatActivity {
                 .setQuery(databaseReference, Food.class).build();
         viewPostRecent();
 
+        try {
+            if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+                FirebaseDatabase.getInstance().getReference("Cart").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        int Size = (int) dataSnapshot.getChildrenCount();
+                        cart_count = Size;
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+            }
+        } catch (Exception e) {
+
+        }
 
     }
 
@@ -310,17 +380,21 @@ public class HomeActivity extends AppCompatActivity {
             protected void onBindViewHolder(FoodViewHolder holder, int position, Food model) {
 
                 final String post_key = getRef(position).getKey();
-                Picasso.get().load(model.getImageUrl()).into(holder.foodImg, new Callback() {
-                    @Override
-                    public void onSuccess() {
+                try {
+                    Picasso.get().load(model.getImageUrl()).into(holder.foodImg, new Callback() {
+                        @Override
+                        public void onSuccess() {
 
-                    }
+                        }
 
-                    @Override
-                    public void onError(Exception e) {
-                        Toast.makeText(getApplicationContext(), "Error on load image", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                        @Override
+                        public void onError(Exception e) {
+                            Toast.makeText(getApplicationContext(), "Error on load image", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                } catch (Exception e) {
+
+                }
                 String foodStatus = model.getItemStatus();
                 long bestPrice = model.getItemPrice();
 
@@ -348,28 +422,36 @@ public class HomeActivity extends AppCompatActivity {
                 String current_day = (Character.toString(saveCurrentDate.charAt(8))).concat(Character.toString(saveCurrentDate.charAt(9)));
                 int c_day = Integer.parseInt(current_day);
                 // Automatic Delete
-                if (e_year == c_year && e_month == c_month && e_day == c_day) {
+                try {
+                    if (e_year == c_year && e_month == c_month && e_day == c_day) {
 
 
-                    holder.foodExpiryDate.setText("Expired");
-                    holder.foodExpiryDate.setTextColor(Color.parseColor("#ff5034"));
+                        holder.foodExpiryDate.setText("Expired");
+                        holder.foodExpiryDate.setTextColor(Color.parseColor("#ff5034"));
 
-                } else {
-                    holder.foodExpiryDate.setText(model.getItemExpiryDate());
+                    } else {
+                        holder.foodExpiryDate.setText(model.getItemExpiryDate());
+                    }
+                } catch (Exception e) {
+
                 }
 
                 // delete automatically  after 5 days
-                int delete_day = e_day + 5;
-                if (e_year == c_year && e_month == c_month && delete_day == c_day) {
+                try {
+                    int delete_day = e_day + 5;
+                    if (e_year == c_year && e_month == c_month && delete_day == c_day) {
 //                    DatabaseReference postDeleteCart = FirebaseDatabase.getInstance().getReference("Cart").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(post_key);
-                    DatabaseReference postDeletePost = FirebaseDatabase.getInstance().getReference("Post").child(post_key);
-                    DatabaseReference postDeleteUserPost = FirebaseDatabase.getInstance().getReference("UserPost").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(post_key);
-                    DatabaseReference postDeleteAdminReport = FirebaseDatabase.getInstance().getReference("AdminReport").child(post_key);
+                        DatabaseReference postDeletePost = FirebaseDatabase.getInstance().getReference("Post").child(post_key);
+                        DatabaseReference postDeleteUserPost = FirebaseDatabase.getInstance().getReference("UserPost").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(post_key);
+                        DatabaseReference postDeleteAdminReport = FirebaseDatabase.getInstance().getReference("AdminReport").child(post_key);
 
 //                    postDeleteCart.removeValue();
-                    postDeletePost.removeValue();
-                    postDeleteAdminReport.removeValue();
-                    postDeleteUserPost.removeValue();
+                        postDeletePost.removeValue();
+                        postDeleteAdminReport.removeValue();
+                        postDeleteUserPost.removeValue();
+
+                    }
+                } catch (Exception e) {
 
                 }
 
@@ -406,12 +488,24 @@ public class HomeActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         if (mUser == null || !mUser.isEmailVerified()) {
-                            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                            startActivity(intent);
+                            try {
+                                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                                startActivity(intent);
+                                HomeActivity.this.finish();
+                            } catch (Exception e) {
+
+                            }
                         } else {
-                            Intent sinlePostIntent = new Intent(HomeActivity.this, FoodPostSingleActivity.class);
-                            sinlePostIntent.putExtra("post_id", post_key);
-                            startActivity(sinlePostIntent);
+                            try {
+                                Intent sinlePostIntent = new Intent(HomeActivity.this, FoodPostSingleActivity.class);
+                                sinlePostIntent.putExtra("post_id", post_key);
+                                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                                startActivity(sinlePostIntent);
+                                HomeActivity.this.finish();
+                            } catch (Exception e) {
+
+                            }
                         }
 
                     }
@@ -428,30 +522,11 @@ public class HomeActivity extends AppCompatActivity {
             }
         };
 
-        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
-            @Override
-            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder viewHolder1) {
-                return false;
-            }
 
-            @Override
-            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
-
-            }
-        });
-
-//        switch (layouts){
-//            case "grid":
-//                GridLayoutManager gridLayoutManager = new GridLayoutManager(getApplicationContext(), 2);
-//                recyclerView.setLayoutManager(gridLayoutManager);
-//                break;
-//            case "linear":
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setReverseLayout(true);
         linearLayoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(linearLayoutManager);
-//                break;
-//        }
         recyclerView.setAdapter(recyclerAdapter);
     }
 
@@ -464,17 +539,21 @@ public class HomeActivity extends AppCompatActivity {
             protected void onBindViewHolder(FoodViewHolder holder, int position, Food model) {
 
                 final String post_key = getRef(position).getKey();
-                Picasso.get().load(model.getImageUrl()).into(holder.foodImg, new Callback() {
-                    @Override
-                    public void onSuccess() {
+                try {
+                    Picasso.get().load(model.getImageUrl()).into(holder.foodImg, new Callback() {
+                        @Override
+                        public void onSuccess() {
 
-                    }
+                        }
 
-                    @Override
-                    public void onError(Exception e) {
-                        Toast.makeText(getApplicationContext(), "Error on load image", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                        @Override
+                        public void onError(Exception e) {
+                            Toast.makeText(getApplicationContext(), "Error on load image", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                } catch (Exception e) {
+
+                }
                 String foodStatus = model.getItemStatus();
                 long bestPrice = model.getItemPrice();
 
@@ -509,14 +588,25 @@ public class HomeActivity extends AppCompatActivity {
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (mUser != null) {
-                            Intent sinlePostIntent = new Intent(HomeActivity.this, FoodPostSingleActivity.class);
-                            sinlePostIntent.putExtra("post_id", post_key);
-                            startActivity(sinlePostIntent);
+                        if (mUser == null || !mUser.isEmailVerified()) {
+                            try {
+                                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                                startActivity(intent);
+                                HomeActivity.this.finish();
+                            } catch (Exception e) {
 
+                            }
                         } else {
-                            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                            startActivity(intent);
+                            try {
+                                Intent sinlePostIntent = new Intent(HomeActivity.this, FoodPostSingleActivity.class);
+                                sinlePostIntent.putExtra("post_id", post_key);
+                                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                                startActivity(sinlePostIntent);
+                                HomeActivity.this.finish();
+                            } catch (Exception e) {
+
+                            }
                         }
 
                     }
@@ -533,30 +623,11 @@ public class HomeActivity extends AppCompatActivity {
             }
         };
 
-        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
-            @Override
-            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder viewHolder1) {
-                return false;
-            }
 
-            @Override
-            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
-
-            }
-        });
-
-//        switch (layouts){
-//            case "grid":
-//                GridLayoutManager gridLayoutManager = new GridLayoutManager(getApplicationContext(), 2);
-//                recyclerView.setLayoutManager(gridLayoutManager);
-//                break;
-//            case "linear":
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setReverseLayout(false);
         linearLayoutManager.setStackFromEnd(false);
         recyclerView.setLayoutManager(linearLayoutManager);
-//                break;
-//        }
         recyclerView.setAdapter(recyclerAdapter);
     }
 
@@ -569,17 +640,21 @@ public class HomeActivity extends AppCompatActivity {
             protected void onBindViewHolder(FoodViewHolder holder, int position, Food model) {
 
                 final String post_key = getRef(position).getKey();
-                Picasso.get().load(model.getImageUrl()).into(holder.foodImg, new Callback() {
-                    @Override
-                    public void onSuccess() {
+                try {
+                    Picasso.get().load(model.getImageUrl()).into(holder.foodImg, new Callback() {
+                        @Override
+                        public void onSuccess() {
 
-                    }
+                        }
 
-                    @Override
-                    public void onError(Exception e) {
-                        Toast.makeText(getApplicationContext(), "Error on load image", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                        @Override
+                        public void onError(Exception e) {
+                            Toast.makeText(getApplicationContext(), "Error on load image", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                } catch (Exception e) {
+
+                }
                 String foodStatus = model.getItemStatus();
                 long bestPrice = model.getItemPrice();
                 String food_category = model.getItemCategory();
@@ -613,13 +688,25 @@ public class HomeActivity extends AppCompatActivity {
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (mUser == null) {
-                            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                            startActivity(intent);
+                        if (mUser == null || !mUser.isEmailVerified()) {
+                            try {
+                                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                                startActivity(intent);
+                                HomeActivity.this.finish();
+                            } catch (Exception e) {
+
+                            }
                         } else {
-                            Intent sinlePostIntent = new Intent(HomeActivity.this, FoodPostSingleActivity.class);
-                            sinlePostIntent.putExtra("post_id", post_key);
-                            startActivity(sinlePostIntent);
+                            try {
+                                Intent sinlePostIntent = new Intent(HomeActivity.this, FoodPostSingleActivity.class);
+                                sinlePostIntent.putExtra("post_id", post_key);
+                                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                                startActivity(sinlePostIntent);
+                                HomeActivity.this.finish();
+                            } catch (Exception e) {
+
+                            }
                         }
 
                     }
@@ -636,30 +723,10 @@ public class HomeActivity extends AppCompatActivity {
             }
         };
 
-        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
-            @Override
-            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder viewHolder1) {
-                return false;
-            }
-
-            @Override
-            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
-
-            }
-        });
-
-//        switch (layouts){
-//            case "grid":
-//                GridLayoutManager gridLayoutManager = new GridLayoutManager(getApplicationContext(), 2);
-//                recyclerView.setLayoutManager(gridLayoutManager);
-//                break;
-//            case "linear":
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setReverseLayout(false);
         linearLayoutManager.setStackFromEnd(false);
         recyclerView.setLayoutManager(linearLayoutManager);
-//                break;
-//        }
         recyclerView.setAdapter(recyclerAdapter);
     }
 
@@ -685,6 +752,16 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.home_menu, menu);
+        MenuItem menuItem = menu.findItem(R.id.cartButton);
+        try {
+            if (lightTheme) {
+                menuItem.setIcon(Converter.convertLayoutToImage(HomeActivity.this, cart_count, R.drawable.ic_shopping_cart_black_24dp));
+            } else {
+                menuItem.setIcon(Converter.convertLayoutToImage(HomeActivity.this, cart_count, R.drawable.ic_shopping_cart_white_24dp));
+            }
+        } catch (Exception e) {
+
+        }
         return true;
     }
 
@@ -694,39 +771,63 @@ public class HomeActivity extends AppCompatActivity {
 
         switch (menuItem.getItemId()) {
             case R.id.cartButton:
-                if (NetworkStatus) {
-                    openCartActivity();
-                } else {
-                    buildDialog(HomeActivity.this).show();
+                try {
+                    if (NetworkStatus) {
+                        openCartActivity();
+                    } else {
+                        buildDialog(HomeActivity.this).show();
+                    }
+                    break;
+                } catch (Exception e) {
+
                 }
-                break;
             case R.id.profileButton:
-                if (NetworkStatus) {
-                    openProfileActivity();
-                } else {
-                    buildDialog(HomeActivity.this).show();
+                try {
+                    if (NetworkStatus) {
+                        openProfileActivity();
+                    } else {
+                        buildDialog(HomeActivity.this).show();
+                    }
+                    break;
+                } catch (Exception e) {
+
                 }
-                break;
             case R.id.sortViewButton:
-                if (NetworkStatus) {
-                    openSortView();
-                } else {
-                    buildDialog(HomeActivity.this).show();
+                try {
+                    if (NetworkStatus) {
+                        openSortView();
+                    } else {
+                        buildDialog(HomeActivity.this).show();
+                    }
+                    break;
+                } catch (Exception e) {
+
                 }
-                break;
             case R.id.settingButton:
-                openSettingActivity();
-                break;
-            case R.id.aboutButton:
-                openAboutUsActivity();
-                break;
-            case R.id.signInOut:
-                if (NetworkStatus) {
-                    openSignInOut();
-                } else {
-                    buildDialog(HomeActivity.this).show();
+                try {
+                    openSettingActivity();
+                    break;
+                } catch (Exception e) {
+
                 }
-                break;
+            case R.id.aboutButton:
+                try {
+                    openAboutUsActivity();
+                    break;
+                } catch (Exception e) {
+
+                }
+            case R.id.signInOut:
+                try {
+                    if (NetworkStatus) {
+                        openSignInOut();
+                    } else {
+                        buildDialog(HomeActivity.this).show();
+                    }
+                    break;
+                } catch (Exception e) {
+
+                }
 
         }
         return super.onOptionsItemSelected(menuItem);
@@ -754,50 +855,70 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     public void openSettingActivity() {
-        Intent intent = new Intent(getApplicationContext(), SettingActivity.class);
-        startActivity(intent);
-        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+        try {
+            Intent intent = new Intent(getApplicationContext(), SettingActivity.class);
+            startActivity(intent);
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+            HomeActivity.this.finish();
+        } catch (Exception e) {
+
+        }
     }
 
     public void openProfileActivity() {
-        if (mUser == null || !mUser.isEmailVerified()) {
-            openSignInOut();
+        try {
+            if (mUser == null || !mUser.isEmailVerified()) {
+                openSignInOut();
 
-            Toast.makeText(this, "Please Login", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-            vibrator.vibrate(20);
-            startActivity(intent);
-            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-        } else {
+                Toast.makeText(this, "Please Login", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                vibrator.vibrate(20);
+                startActivity(intent);
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                HomeActivity.this.finish();
+            } else {
 
-            Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
-            startActivity(intent);
-            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+                startActivity(intent);
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                HomeActivity.this.finish();
+            }
+        } catch (Exception e) {
+
         }
     }
 
     public void openCartActivity() {
-        if (mUser == null || !mUser.isEmailVerified()) {
-            Toast.makeText(this, "Please Sign in to Add item to cart!!", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-            vibrator.vibrate(20);
-            startActivity(intent);
-            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+        try {
+            if (mUser == null || !mUser.isEmailVerified()) {
+                Toast.makeText(this, "Please Sign in to Add item to cart!!", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                vibrator.vibrate(20);
+                startActivity(intent);
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                HomeActivity.this.finish();
 
-        } else {
-            Intent intent = new Intent(getApplicationContext(), CartActivity.class);
-            startActivity(intent);
-            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+            } else {
+                Intent intent = new Intent(getApplicationContext(), CartActivity.class);
+                startActivity(intent);
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                HomeActivity.this.finish();
+            }
+
+        }catch (Exception e){
+
         }
-
-
     }
 
     public void openAboutUsActivity() {
-        Intent intent = new Intent(getApplicationContext(), AboutUsActivity.class);
-        startActivity(intent);
-        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+        try {
+            Intent intent = new Intent(getApplicationContext(), AboutUsActivity.class);
+            startActivity(intent);
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+            HomeActivity.this.finish();
+        } catch (Exception e) {
 
+        }
     }
 
     public void openSortView() {
@@ -816,43 +937,51 @@ public class HomeActivity extends AppCompatActivity {
 
     public void openSignInOut() {
         if (statusInOut == "signOut") {
-            Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
-            startActivity(intent);
-            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-        } else if (statusInOut == "signIn") {
-            firebaseAuth.signOut();
-            restartApp();
+            try {
+                Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
+                startActivity(intent);
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                HomeActivity.this.finish();
+            } catch (Exception e) {
 
+            }
+        } else if (statusInOut == "signIn") {
+            try {
+                firebaseAuth.signOut();
+                restartApp();
+            } catch (Exception e) {
+
+            }
         }
     }
 
     public void openAddFoodActivity() {
         if (!mUser.isEmailVerified()) {
-            openSignInOut();
-            Toast.makeText(this, "Please Login", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-            vibrator.vibrate(20);
-            startActivity(intent);
-            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+            try {
+                openSignInOut();
+                Toast.makeText(this, "Please Login", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                vibrator.vibrate(20);
+                startActivity(intent);
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                HomeActivity.this.finish();
+            } catch (Exception e) {
+
+            }
         } else {
 
-            Intent intent = new Intent(getApplicationContext(), AddFoodActivity.class);
-            vibrator.vibrate(20);
-            startActivity(intent);
-            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+            try {
+                Intent intent = new Intent(getApplicationContext(), AddFoodActivity.class);
+                vibrator.vibrate(20);
+                startActivity(intent);
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                HomeActivity.this.finish();
+            } catch (Exception e) {
+
+            }
         }
 
     }
-
-//    private void openLayoutView() {
-//        if(layouts == "grid"){
-//
-//            layouts = "linear";
-//        }else if (layouts == "linear") {
-//            layouts = "grid";
-//        }
-//
-//    }
 
 
     public void openDefaultCategory() {
@@ -885,7 +1014,8 @@ public class HomeActivity extends AppCompatActivity {
             itemForDonation.setBackground(getDrawable(R.drawable.button_design));
             itemForDonation.setTextColor(Color.parseColor("#000000"));
         }
-        Toast.makeText(this, "Default", Toast.LENGTH_SHORT).show();
+        Snackbar.make((CoordinatorLayout) findViewById(R.id.homeView), "Default", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show();
     }
 
 
@@ -919,7 +1049,8 @@ public class HomeActivity extends AppCompatActivity {
             itemForDonation.setBackground(getDrawable(R.drawable.button_design));
             itemForDonation.setTextColor(Color.parseColor("#000000"));
         }
-        Toast.makeText(this, "Fruit", Toast.LENGTH_SHORT).show();
+        Snackbar.make((CoordinatorLayout) findViewById(R.id.homeView), "Fruit", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show();
     }
 
 
@@ -955,7 +1086,8 @@ public class HomeActivity extends AppCompatActivity {
             itemForDonation.setBackground(getDrawable(R.drawable.button_rev_design));
             itemForDonation.setTextColor(Color.parseColor("#ffffff"));
         }
-        Toast.makeText(this, "Donation", Toast.LENGTH_SHORT).show();
+        Snackbar.make((CoordinatorLayout) findViewById(R.id.homeView), "Donation", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show();
     }
 
     public void openVegetableCategory() {
@@ -988,7 +1120,8 @@ public class HomeActivity extends AppCompatActivity {
             itemForDonation.setBackground(getDrawable(R.drawable.button_design));
             itemForDonation.setTextColor(Color.parseColor("#000000"));
         }
-        Toast.makeText(this, "Vegetable", Toast.LENGTH_SHORT).show();
+        Snackbar.make((CoordinatorLayout) findViewById(R.id.homeView), "Vegetable", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show();
 
     }
 
@@ -1022,7 +1155,8 @@ public class HomeActivity extends AppCompatActivity {
             itemForDonation.setBackground(getDrawable(R.drawable.button_design));
             itemForDonation.setTextColor(Color.parseColor("#000000"));
         }
-        Toast.makeText(this, "Cook", Toast.LENGTH_SHORT).show();
+        Snackbar.make((CoordinatorLayout) findViewById(R.id.homeView), "Cook", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show();
 
     }
 
@@ -1056,7 +1190,8 @@ public class HomeActivity extends AppCompatActivity {
             itemForDonation.setBackground(getDrawable(R.drawable.button_design));
             itemForDonation.setTextColor(Color.parseColor("#000000"));
         }
-        Toast.makeText(this, "Fridge", Toast.LENGTH_SHORT).show();
+        Snackbar.make((CoordinatorLayout) findViewById(R.id.homeView), "Fridge", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show();
 
     }
 

@@ -1,5 +1,6 @@
 package com.example.pravinewa.foodhut;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Vibrator;
@@ -106,6 +107,8 @@ public class HistoryOrderActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 onBackPressed();
+                Intent intent = new Intent(getApplicationContext(), CartActivity.class);
+                startActivity(intent);
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 finish();
             }
@@ -119,18 +122,21 @@ public class HistoryOrderActivity extends AppCompatActivity {
             protected void onBindViewHolder(final HistoryOrderViewHolder holder, int position, HistoryOrder model) {
 
                 final String post_key = getRef(position).getKey();
-                Picasso.get().load(model.getFoodImage()).into(holder.foodImg, new Callback() {
-                    @Override
-                    public void onSuccess() {
+                try {
+                    Picasso.get().load(model.getFoodImage()).into(holder.foodImg, new Callback() {
+                        @Override
+                        public void onSuccess() {
 
-                    }
+                        }
 
-                    @Override
-                    public void onError(Exception e) {
-                        Toast.makeText(getApplicationContext(), "Error on load image Cart", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                        @Override
+                        public void onError(Exception e) {
+                            Toast.makeText(getApplicationContext(), "Error on load image Cart", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }catch (Exception e){
 
+                }
                 final String foodNameC = model.getFoodName();
                 final long food_price = model.getFoodPrice();
                 final long food_quantity = model.getFoodQuantity();
@@ -183,6 +189,8 @@ public class HistoryOrderActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        Intent intent = new Intent(getApplicationContext(), CartActivity.class);
+        startActivity(intent);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         finish();
     }

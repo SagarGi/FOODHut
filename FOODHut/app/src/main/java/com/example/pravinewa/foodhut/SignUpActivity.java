@@ -1,8 +1,11 @@
 package com.example.pravinewa.foodhut;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -88,6 +91,8 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 onBackPressed();
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(intent);
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 finish();
             }
@@ -164,6 +169,8 @@ public class SignUpActivity extends AppCompatActivity {
 
     public void onBackPressed(){
         super.onBackPressed();
+        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+        startActivity(intent);
         overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
         finish();
     }
@@ -242,28 +249,29 @@ public class SignUpActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
 
                         if (task.isSuccessful()) {
+                            try {
+                                User user = new User(
+                                        fullname,
+                                        email, contact, address, profileUrl
+                                );
 
-                            User user = new User(
-                                    fullname,
-                                    email,contact,address,profileUrl
-                            );
-
-                            FirebaseDatabase.getInstance().getReference("Users")
-                                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                                    .setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    progressBar.setVisibility(View.GONE);
-                                    if (task.isSuccessful()) {
+                                FirebaseDatabase.getInstance().getReference("Users")
+                                        .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                        .setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
                                         progressBar.setVisibility(View.GONE);
-                                        sendEmailVerification();
-                                    } else
-                                    {
-                                        //display a failure message
+                                        if (task.isSuccessful()) {
+                                            progressBar.setVisibility(View.GONE);
+                                            sendEmailVerification();
+                                        } else {
+                                            //display a failure message
+                                        }
                                     }
-                                }
-                            });
+                                });
+                            }catch (Exception e){
 
+                            }
                         }
                         else
                         {
@@ -276,30 +284,30 @@ public class SignUpActivity extends AppCompatActivity {
 
     //send email verification
 
-    public void sendEmailVerification()
-    {
-        final FirebaseUser user = mAuth.getCurrentUser();
-        user.sendEmailVerification()
-                .addOnCompleteListener(SignUpActivity.this, new OnCompleteListener() {
-                    @Override
-                    public void onComplete(@NonNull Task task) {
-                        if (task.isSuccessful()) {
-                            progressBar.setVisibility(View.GONE);
+    public void sendEmailVerification() {
+        try {
+            final FirebaseUser user = mAuth.getCurrentUser();
+            user.sendEmailVerification()
+                    .addOnCompleteListener(SignUpActivity.this, new OnCompleteListener() {
+                        @Override
+                        public void onComplete(@NonNull Task task) {
+                            if (task.isSuccessful()) {
+                                progressBar.setVisibility(View.GONE);
 
-                            Toast.makeText(SignUpActivity.this,
-                                    "Verification email sent to " + user.getEmail(),
+                                Snackbar.make((CoordinatorLayout) findViewById(R.id.signUpLayout), "Verification email sent to " + user.getEmail(), Snackbar.LENGTH_LONG)
+                                        .setAction("Action", null).show();
 
-                                    Toast.LENGTH_SHORT).show();
 
-                        } else {
-                            progressBar.setVisibility(View.GONE);
+                            } else {
+                                progressBar.setVisibility(View.GONE);
 
-                            Toast.makeText(SignUpActivity.this,
-                                    "Failed to send verification email.",
-                                    Toast.LENGTH_SHORT).show();
+                                Snackbar.make((CoordinatorLayout) findViewById(R.id.signUpLayout), "Failed to send verification email.", Snackbar.LENGTH_LONG)
+                                        .setAction("Action", null).show();
+                            }
                         }
-                    }
-                });
-    }
+                    });
+        }catch (Exception e){
 
+        }
+    }
 }

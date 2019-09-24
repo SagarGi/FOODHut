@@ -51,7 +51,6 @@ public class ProfileActivity extends AppCompatActivity {
     private ViewPager viewPager;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -76,7 +75,7 @@ public class ProfileActivity extends AppCompatActivity {
                     window.setStatusBarColor(this.getResources().getColor(R.color.dark_status));
                 }
             }
-        } else if(sharedPref.loadLightModeState()==false && sharedPref.loadDarkModeState()==false){
+        } else if (sharedPref.loadLightModeState() == false && sharedPref.loadDarkModeState() == false) {
             setTheme(R.style.DefaultTheme);
             decorView.setSystemUiVisibility(decorView.getSystemUiVisibility() & ~View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
             if (Build.VERSION.SDK_INT >= 21) {
@@ -88,37 +87,33 @@ public class ProfileActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-        tabLayout = (TabLayout)findViewById(R.id.tabLayout_profile);
-        appBarLayout = (AppBarLayout)findViewById(R.id.appBarProfile);
-        viewPager = (ViewPager)findViewById(R.id.viewpager_profile);
+        tabLayout = (TabLayout) findViewById(R.id.tabLayout_profile);
+        appBarLayout = (AppBarLayout) findViewById(R.id.appBarProfile);
+        viewPager = (ViewPager) findViewById(R.id.viewpager_profile);
 
         ViewPageAdapter adapter = new ViewPageAdapter(getSupportFragmentManager());
-        adapter.AddFragment(new InCompleteFragment(),"");
-        adapter.AddFragment(new CompleteFragment(),"");
+        adapter.AddFragment(new InCompleteFragment(), "");
+        adapter.AddFragment(new CompleteFragment(), "");
 
 
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
 
-        if(sharedPref.loadDarkModeState() == true)
-        {
+        if (sharedPref.loadDarkModeState() == true) {
             tabLayout.getTabAt(0).setIcon(R.drawable.iconschecklist80white);
             tabLayout.getTabAt(1).setIcon(R.drawable.iconstaskcompleted80white);
-        }
-        else
-        {
+        } else {
             tabLayout.getTabAt(0).setIcon(R.drawable.iconschecklist80black);
             tabLayout.getTabAt(1).setIcon(R.drawable.iconstaskcompleted80black);
         }
 
 
-
         toolbar = (Toolbar) findViewById(R.id.profileToolbarId);
         toolbar.setTitle("Profile");
-        toolbar.setTitleTextAppearance(this,R.style.ITCavantFont);
+        toolbar.setTitleTextAppearance(this, R.style.ITCavantFont);
         setSupportActionBar(toolbar);
 
-        if(getSupportActionBar() != null) {
+        if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
@@ -127,23 +122,24 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 onBackPressed();
-                overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
+                Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                startActivity(intent);
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 finish();
             }
         });
 
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();
-        storageReference= FirebaseStorage.getInstance().getReference("ProfileImages");
+        storageReference = FirebaseStorage.getInstance().getReference("ProfileImages");
 
         DatabaseReference databaseReference = firebaseDatabase.getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
-        fullname = (TextView)findViewById(R.id.fullNameProfile);
-        email = (TextView)findViewById(R.id.emailProfile);
-        mobNumber = (TextView)findViewById(R.id.mobNumberProfile);
-        address = (TextView)findViewById(R.id.addressProfile);
-        profileImage = (CircleImageView)findViewById(R.id.profile_image);
-
+        fullname = (TextView) findViewById(R.id.fullNameProfile);
+        email = (TextView) findViewById(R.id.emailProfile);
+        mobNumber = (TextView) findViewById(R.id.mobNumberProfile);
+        address = (TextView) findViewById(R.id.addressProfile);
+        profileImage = (CircleImageView) findViewById(R.id.profile_image);
 
 
         databaseReference.addValueEventListener(new ValueEventListener() {
@@ -155,14 +151,14 @@ public class ProfileActivity extends AppCompatActivity {
                 mobNumber.setText(user.getPhone());
                 address.setText(user.getAddress());
                 String profile_Image = (String) dataSnapshot.child("profileUrl").getValue();
-                if(profile_Image.equals("null"))
-                {
-                    Bitmap Icon = BitmapFactory.decodeResource(getResources(),R.drawable.blank_profile);
-                    profileImage.setImageBitmap(Icon);
+                if (profile_Image.equals("null")) {
+                    try {
+                        Bitmap Icon = BitmapFactory.decodeResource(getResources(), R.drawable.blank_profile);
+                        profileImage.setImageBitmap(Icon);
+                    } catch (Exception e) {
 
-                }
-                else
-                {
+                    }
+                } else {
 
                     Picasso.get().load(profile_Image).into(profileImage);
                 }
@@ -171,7 +167,7 @@ public class ProfileActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(getApplicationContext(),"Error occured",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Error occured", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -189,7 +185,7 @@ public class ProfileActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem menuItem) {
 
         switch (menuItem.getItemId()) {
-            case R.id.editProfileButton :
+            case R.id.editProfileButton:
                 openEditProfile();
                 break;
 
@@ -197,17 +193,23 @@ public class ProfileActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(menuItem);
     }
 
-    public void openEditProfile(){
-        Intent intent = new Intent(getApplicationContext(), EditProfileActivity.class);
-        startActivity(intent);
-        ProfileActivity.this.finish();
-        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+    public void openEditProfile() {
+        try {
+            Intent intent = new Intent(getApplicationContext(), EditProfileActivity.class);
+            startActivity(intent);
+            ProfileActivity.this.finish();
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+        } catch (Exception e) {
 
+        }
     }
+
     @Override
-    public void onBackPressed(){
+    public void onBackPressed() {
         super.onBackPressed();
-        overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
+        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+        startActivity(intent);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         finish();
     }
 }

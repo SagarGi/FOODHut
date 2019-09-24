@@ -1,11 +1,15 @@
 package com.example.pravinewa.foodhut;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -55,6 +59,7 @@ public class LoginActivity extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
     String password = "Invisible";
     ImageView show_password;
+    int progressStatus = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,12 +120,15 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 onBackPressed();
+                Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                startActivity(intent);
                 overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
                 finish();
             }
         });
 
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
+
         progressBar.setVisibility(View.GONE);
         //firebase database user authentication
         sharedPreferences = getSharedPreferences(PREFS_NAME,MODE_PRIVATE);
@@ -298,16 +306,15 @@ public class LoginActivity extends AppCompatActivity {
                     } else {
                         progressBar.setVisibility(View.GONE);
 
-                        Toast.makeText(LoginActivity.this, "Please Verify your Email First", Toast.LENGTH_LONG).show();
+                        Snackbar.make((CoordinatorLayout) findViewById(R.id.loginLayout), "Please Verify your Email First!!", Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
 
                     }
                 } else {
                     progressBar.setVisibility(View.GONE);
-                    Toast.makeText(LoginActivity.this, "Authentication failed. Please check Email/Password",
-                            Toast.LENGTH_SHORT).show();
-//                    etEmailLogin.setEnabled(true);
-//                    etPasswordLogin.setEnabled(true);
-//                    rememberme.setEnabled(true);
+                    Snackbar.make((CoordinatorLayout) findViewById(R.id.loginLayout), "Authentication failed. Please check Email/Password!!", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+
                 }
 
             }
@@ -329,10 +336,11 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     public void onBackPressed(){
         super.onBackPressed();
+        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+        startActivity(intent);
         overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
         finish();
     }
-
     private void showForgotPasswordDialog() {
         ViewGroup viewGroup = findViewById(android.R.id.content);
         final View dialogView = LayoutInflater.from(this).inflate(R.layout.forgot_password_dialog, viewGroup, false);

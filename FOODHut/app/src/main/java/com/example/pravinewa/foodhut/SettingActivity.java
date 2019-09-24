@@ -8,6 +8,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
@@ -138,8 +140,8 @@ public class SettingActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(),HomeActivity.class);
-                startActivity(i);
+                Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                startActivity(intent);
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 finish();
             }
@@ -192,12 +194,13 @@ public class SettingActivity extends AppCompatActivity {
                                         public void onComplete(@NonNull Task<Void> task) {
                                             if(task.isSuccessful()){
                                                 progressBar.setVisibility(View.GONE);
-                                                Toast.makeText(getApplicationContext(),"Password Changed",Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(getApplicationContext(),"Password Changed Successfully!!",Toast.LENGTH_SHORT).show();
                                                 firebaseAuth.signOut();
                                                 Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
                                                 startActivity(intent);
                                             }else{
-                                                Toast.makeText(getApplicationContext(),"Password Changed Failed",Toast.LENGTH_SHORT).show();
+                                                Snackbar.make((CoordinatorLayout) findViewById(R.id.settingLayout), "Password changed Failed!!", Snackbar.LENGTH_LONG)
+                                                        .setAction("Action", null).show();
                                                 progressBar.setVisibility(View.GONE);
 
                                             }
@@ -205,7 +208,8 @@ public class SettingActivity extends AppCompatActivity {
                                     });
 
                                 }else{
-                                    Toast.makeText(getApplicationContext(),"Old Password didnot Match",Toast.LENGTH_SHORT).show();
+                                    Snackbar.make((CoordinatorLayout) findViewById(R.id.settingLayout), "Old Password Didn't Match!!", Snackbar.LENGTH_LONG)
+                                            .setAction("Action", null).show();
                                     progressBar.setVisibility(View.GONE);
 
                                 }
@@ -277,19 +281,19 @@ public class SettingActivity extends AppCompatActivity {
 
                 switch (index) {
                     case 0:
-                        Toast.makeText(getApplicationContext(), "Default", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Default Theme Applied", Toast.LENGTH_SHORT).show();
                         sharedPref.setDarkModeState(false);
                         sharedPref.setLightModeState(false);
                         restartApp();
                         break;
                     case 1:
-                        Toast.makeText(getApplicationContext(), "Light", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Light Theme Applied", Toast.LENGTH_SHORT).show();
                         sharedPref.setLightModeState(true);
                         sharedPref.setDarkModeState(false);
                         restartApp();
                         break;
                     case 2:
-                        Toast.makeText(getApplicationContext(), "Dark", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Dark Theme Applied", Toast.LENGTH_SHORT).show();
                         sharedPref.setDarkModeState(true);
                         sharedPref.setLightModeState(false);
                         restartApp();
@@ -468,8 +472,8 @@ public class SettingActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent i = new Intent(getApplicationContext(),HomeActivity.class);
-        startActivity(i);
+        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+        startActivity(intent);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         finish();
     }

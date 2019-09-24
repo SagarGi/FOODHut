@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:background="?attr/backgroundColor"
     android:orientation="vertical"
+    android:id="@+id/foodPostLayout"
     tools:context=".FoodPostSingleActivity">
 
 
@@ -453,7 +454,7 @@
         android:layout_marginRight="25dp"
         android:backgroundTint="?attr/buttonColor"
         android:src="?attr/cartFloatingIcon"
-        app:elevation="6dp"
+        app:borderWidth="0dp"
         app:fabSize="normal"
         app:layout_anchor="@id/postFoodImage"
         app:layout_anchorGravity="bottom|right" />

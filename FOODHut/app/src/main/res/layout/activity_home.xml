@@ -222,11 +222,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_marginBottom="25dp"
-        android:layout_marginRight="25dp"
+        android:layout_margin="20dp"
         android:src="?attr/addFloatingIcon"
-        app:elevation="6dp"
-        android:backgroundTint="?attr/buttonColor"
-        app:fabSize="normal" />
+        app:borderWidth="0dp"
+        app:fabSize="normal"
+        android:backgroundTint="?attr/buttonColor" />
 
 </android.support.design.widget.CoordinatorLayout>

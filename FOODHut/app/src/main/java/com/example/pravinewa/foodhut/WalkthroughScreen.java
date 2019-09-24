@@ -3,6 +3,7 @@ package com.example.pravinewa.foodhut;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
+import android.os.Vibrator;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -30,6 +31,7 @@ public class WalkthroughScreen extends AppCompatActivity {
     Button getStarted;
 
     Animation btnAnimIn;
+    Vibrator vibrator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +46,7 @@ public class WalkthroughScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_walkthrough_screen);
 
+        vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
         //ater this activity is launch we need to check sharedpreference
 
         if(restorePrefData()){
@@ -59,12 +62,17 @@ public class WalkthroughScreen extends AppCompatActivity {
         getStarted.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-                startActivity(intent);
+                try {
+                    vibrator.vibrate(25);
+                    Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                    startActivity(intent);
 
-                savePrefsData();
-                finish();
+                    savePrefsData();
+                    finish();
+                }catch (Exception e){
+
+                }
             }
         });
 
