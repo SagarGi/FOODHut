@@ -4,6 +4,8 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
 import android.widget.Toast;
 
@@ -42,7 +44,8 @@ public class DeleteDialog extends DialogFragment {
                         postDeletePost.removeValue();
                         postDeleteAdminReport.removeValue();
                         postDeleteUserPost.removeValue();
-                        Toast.makeText(getActivity(),"Deleted Succesfully",Toast.LENGTH_SHORT).show();
+                        Snackbar.make((CoordinatorLayout) getActivity().findViewById(R.id.profileLayout), "Item Deleted Successfully.", Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
                     }
                 })
                 .create();

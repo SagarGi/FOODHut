@@ -1,5 +1,6 @@
 package com.example.pravinewa.foodhut;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
@@ -185,17 +186,7 @@ public class SignUpActivity extends AppCompatActivity {
 
         if(fullname.isEmpty() && email.isEmpty() && password.isEmpty() && contact.isEmpty() && address.isEmpty())
         {
-            AlertDialog.Builder builder = new AlertDialog.Builder(SignUpActivity.this);
-            builder.setMessage("Fields cannot be left empty!!")
-                    .setCancelable(false)
-                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-
-                        }
-                    });
-
-            AlertDialog alert = builder.create();
-            alert.show();
+            buildDialog(SignUpActivity.this, "Fields cannot be left empty!!");
             return;
         }
 
@@ -283,6 +274,21 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     //send email verification
+
+    public android.app.AlertDialog.Builder buildDialog(Context context, String msg) {
+        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(context, android.app.AlertDialog.THEME_HOLO_LIGHT);
+        builder.setTitle("Empty Fields");
+        builder.setCancelable(true);
+        builder.setMessage(msg);
+
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        return builder;
+    }
 
     public void sendEmailVerification() {
         try {

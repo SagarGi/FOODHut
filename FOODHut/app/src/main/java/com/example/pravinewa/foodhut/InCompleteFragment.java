@@ -1,11 +1,14 @@
 package com.example.pravinewa.foodhut;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.support.annotation.NonNull;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.GridLayoutManager;
@@ -93,7 +96,6 @@ public class InCompleteFragment extends Fragment {
                         vibrator = (Vibrator) getActivity().getSystemService(VIBRATOR_SERVICE);
 
                         vibrator.vibrate(30);
-
                         Bundle bundle = new Bundle();
                         bundle.putString("post_id", post_key);
                         DeleteDialog deleteDialog = new DeleteDialog();

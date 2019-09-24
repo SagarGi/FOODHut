@@ -1,6 +1,7 @@
 package com.example.pravinewa.foodhut;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -236,17 +237,7 @@ public class LoginActivity extends AppCompatActivity {
 
         if(emailLogin.isEmpty() && passwordLogin.isEmpty())
         {
-            AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-            builder.setMessage("Please enter email and password!!")
-                    .setCancelable(false)
-                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-
-                        }
-                    });
-
-            AlertDialog alert = builder.create();
-            alert.show();
+            buildDialog(LoginActivity.this,"Please enter email and password!!");
             return;
         }
 
@@ -400,7 +391,11 @@ public class LoginActivity extends AppCompatActivity {
                                     if(sendForgotPassword.getText().toString().equals("Ok"))
 
                                     {
+
                                         alertDialog.dismiss();
+                                        Snackbar.make((CoordinatorLayout) findViewById(R.id.loginLayout), "Reset Link Sent!!", Snackbar.LENGTH_LONG)
+                                                .setAction("Action", null).show();
+
                                     }
                                 }
                             });
@@ -419,6 +414,20 @@ public class LoginActivity extends AppCompatActivity {
         });*/
 
 
+    }
+    public android.app.AlertDialog.Builder buildDialog(Context context, String msg) {
+        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(context, android.app.AlertDialog.THEME_HOLO_LIGHT);
+        builder.setTitle("Empty Fields");
+        builder.setCancelable(true);
+        builder.setMessage(msg);
+
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        return builder;
     }
 
 }

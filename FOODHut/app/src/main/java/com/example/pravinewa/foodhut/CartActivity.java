@@ -1,5 +1,6 @@
 package com.example.pravinewa.foodhut;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -165,7 +166,7 @@ public class CartActivity extends AppCompatActivity {
                     } else {
                         showPlaceOrderDialog(totalPrice);
                     }
-                }catch (Exception e){
+                } catch (Exception e) {
 
                 }
             }
@@ -216,7 +217,7 @@ public class CartActivity extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), "Error on load image Cart", Toast.LENGTH_SHORT).show();
                         }
                     });
-                }catch (Exception e){
+                } catch (Exception e) {
 
                 }
                 final String foodNameC = model.getFoodName();
@@ -252,7 +253,7 @@ public class CartActivity extends AppCompatActivity {
                                             totalPrice = totalPrice - totalThisPrice;
                                             checkOut.setText("Checkout (Rs. " + totalPrice + ")");
                                         }
-                                    }catch (Exception e){
+                                    } catch (Exception e) {
 
                                     }
                                 } else {
@@ -273,7 +274,7 @@ public class CartActivity extends AppCompatActivity {
 
                                         AlertDialog alert = builder.create();
                                         alert.show();
-                                    }catch (Exception e){
+                                    } catch (Exception e) {
 
                                     }
                                 }
@@ -289,27 +290,25 @@ public class CartActivity extends AppCompatActivity {
                 });
 
 
-                holder.itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        try {
-                            Intent sinlePostIntent = new Intent(CartActivity.this, FoodPostSingleActivity.class);
-                            sinlePostIntent.putExtra("post_id", post_key);
-                            startActivity(sinlePostIntent);
-                            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-                            CartActivity.this.finish();
-                        }catch (Exception e){
-
-                        }
-                    }
-                });
+//                holder.itemView.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        try {
+//                            Intent sinlePostIntent = new Intent(CartActivity.this, FoodPostSingleActivity.class);
+//                            sinlePostIntent.putExtra("post_id", post_key);
+//                            startActivity(sinlePostIntent);
+//                            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+//                            CartActivity.this.finish();
+//                        } catch (Exception e) {
+//
+//                        }
+//                    }
+//                });
 
                 holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View v) {
                         try {
-                            vibrator.vibrate(30);
-//                        Toast.makeText(getApplicationContext(),"Longed Click",Toast.LENGTH_SHORT).show();
                             vibrator = (Vibrator) getApplicationContext().getSystemService(VIBRATOR_SERVICE);
 
                             vibrator.vibrate(30);
@@ -572,7 +571,7 @@ public class CartActivity extends AppCompatActivity {
                         newAddressText.setText("");
                         newAddressText.setEnabled(false);
                         shipped = "currentAddress";
-                    }catch (Exception e){
+                    } catch (Exception e) {
 
                     }
                 }
@@ -582,7 +581,7 @@ public class CartActivity extends AppCompatActivity {
                     try {
                         newAddressText.setEnabled(true);
                         shipped = "newAddress";
-                    }catch (Exception e){
+                    } catch (Exception e) {
 
                     }
                 }
@@ -605,7 +604,7 @@ public class CartActivity extends AppCompatActivity {
                 try {
                     openHistory();
                     break;
-                }catch (Exception e){
+                } catch (Exception e) {
 
                 }
         }
@@ -619,6 +618,7 @@ public class CartActivity extends AppCompatActivity {
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 
     }
+
 
     @Override
     public void onBackPressed() {

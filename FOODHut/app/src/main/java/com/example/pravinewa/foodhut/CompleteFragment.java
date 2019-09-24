@@ -76,7 +76,7 @@ public class CompleteFragment extends Fragment {
               final String food_shipping_address = model.getIntrestedAddress();
               holder.tvDear.setText("Dear sir/madam,\n");
               holder.intrestedDescription.setText("You have an Order from Mr." + food_user_intrested +  " for your Item " + food_name_intrested + ". Please call him to " +food_contact_intrested +
-              "confirm order");
+              " confirm order");
               holder.tvTime.setText("(" + date + ")");
               holder.quantity_Ordered.setText(foodquantity);
               holder.food_Price_odered_perunit.setText("Rs." + food_price_unit);

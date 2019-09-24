@@ -199,6 +199,8 @@ public class HomeActivity extends AppCompatActivity {
                             recyclerOptions = new FirebaseRecyclerOptions.Builder<Food>()
                                     .setQuery(databaseReference, Food.class).build();
                             viewPostRecent();
+                            Snackbar.make((CoordinatorLayout) findViewById(R.id.homeView), "Sort by Recent", Snackbar.LENGTH_LONG)
+                                    .setAction("Action", null).show();
                             onResume();
                             break;
                         } catch (Exception e) {
@@ -209,6 +211,9 @@ public class HomeActivity extends AppCompatActivity {
                             recyclerOptions = new FirebaseRecyclerOptions.Builder<Food>()
                                     .setQuery(databaseReference.orderByChild("itemExpiryDate").startAt("2019-08-27").endAt("2030-08-27"), Food.class).build();
                             viewPost();
+                            Snackbar.make((CoordinatorLayout) findViewById(R.id.homeView), "Sort by Expiry Date", Snackbar.LENGTH_LONG)
+                                    .setAction("Action", null).show();
+
                             onResume();
                             break;
                         } catch (Exception e) {
@@ -220,6 +225,9 @@ public class HomeActivity extends AppCompatActivity {
                             recyclerOptions = new FirebaseRecyclerOptions.Builder<Food>()
                                     .setQuery(databaseReference.orderByChild("itemPrice").startAt(1), Food.class).build();
                             viewPostPrice();
+                            Snackbar.make((CoordinatorLayout) findViewById(R.id.homeView), "Sort by Price", Snackbar.LENGTH_LONG)
+                                    .setAction("Action", null).show();
+
                             onResume();
                             break;
                         } catch (Exception e) {
@@ -1014,7 +1022,7 @@ public class HomeActivity extends AppCompatActivity {
             itemForDonation.setBackground(getDrawable(R.drawable.button_design));
             itemForDonation.setTextColor(Color.parseColor("#000000"));
         }
-        Snackbar.make((CoordinatorLayout) findViewById(R.id.homeView), "Default", Snackbar.LENGTH_LONG)
+        Snackbar.make((CoordinatorLayout) findViewById(R.id.homeView), "Sort by Recent", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
     }
 
@@ -1049,7 +1057,7 @@ public class HomeActivity extends AppCompatActivity {
             itemForDonation.setBackground(getDrawable(R.drawable.button_design));
             itemForDonation.setTextColor(Color.parseColor("#000000"));
         }
-        Snackbar.make((CoordinatorLayout) findViewById(R.id.homeView), "Fruit", Snackbar.LENGTH_LONG)
+        Snackbar.make((CoordinatorLayout) findViewById(R.id.homeView), "Sort by Fruit", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
     }
 
@@ -1086,7 +1094,7 @@ public class HomeActivity extends AppCompatActivity {
             itemForDonation.setBackground(getDrawable(R.drawable.button_rev_design));
             itemForDonation.setTextColor(Color.parseColor("#ffffff"));
         }
-        Snackbar.make((CoordinatorLayout) findViewById(R.id.homeView), "Donation", Snackbar.LENGTH_LONG)
+        Snackbar.make((CoordinatorLayout) findViewById(R.id.homeView), "Sort by Donation", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
     }
 
@@ -1120,7 +1128,7 @@ public class HomeActivity extends AppCompatActivity {
             itemForDonation.setBackground(getDrawable(R.drawable.button_design));
             itemForDonation.setTextColor(Color.parseColor("#000000"));
         }
-        Snackbar.make((CoordinatorLayout) findViewById(R.id.homeView), "Vegetable", Snackbar.LENGTH_LONG)
+        Snackbar.make((CoordinatorLayout) findViewById(R.id.homeView), "Sort by Vegetable", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
 
     }
@@ -1155,7 +1163,7 @@ public class HomeActivity extends AppCompatActivity {
             itemForDonation.setBackground(getDrawable(R.drawable.button_design));
             itemForDonation.setTextColor(Color.parseColor("#000000"));
         }
-        Snackbar.make((CoordinatorLayout) findViewById(R.id.homeView), "Cook", Snackbar.LENGTH_LONG)
+        Snackbar.make((CoordinatorLayout) findViewById(R.id.homeView), "Sort by Food", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
 
     }
@@ -1190,7 +1198,7 @@ public class HomeActivity extends AppCompatActivity {
             itemForDonation.setBackground(getDrawable(R.drawable.button_design));
             itemForDonation.setTextColor(Color.parseColor("#000000"));
         }
-        Snackbar.make((CoordinatorLayout) findViewById(R.id.homeView), "Fridge", Snackbar.LENGTH_LONG)
+        Snackbar.make((CoordinatorLayout) findViewById(R.id.homeView), "Sort by Groceries", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
 
     }

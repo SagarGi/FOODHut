@@ -69,6 +69,9 @@ public class DeleteDialogCart extends DialogFragment {
 
                         DatabaseReference postDeleteCart = FirebaseDatabase.getInstance().getReference("Cart").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(post_key);
                         postDeleteCart.removeValue();
+                        Snackbar.make((CoordinatorLayout) getActivity().findViewById(R.id.cartLayout), "Removed from Cart Successfully.", Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
+
 
                     }
                 })
