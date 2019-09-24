@@ -17,9 +17,10 @@ public class DeleteDialog extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog( Bundle savedInstanceState) {
-        return new AlertDialog.Builder(getActivity())
+        return new AlertDialog.Builder(getActivity(), AlertDialog.THEME_HOLO_LIGHT)
                 .setTitle("Remove Post")
                 .setMessage("Sure you wanna remove this!")
+
                 .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

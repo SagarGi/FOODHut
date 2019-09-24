@@ -47,7 +47,7 @@
                 android:id="@+id/checkoutButton"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:background="@color/default_status"
+                android:background="?attr/buttonColor"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
                 android:text="Checkout (Rs. 00.00)"

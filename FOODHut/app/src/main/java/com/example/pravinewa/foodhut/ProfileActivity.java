@@ -152,12 +152,8 @@ public class ProfileActivity extends AppCompatActivity {
                 address.setText(user.getAddress());
                 String profile_Image = (String) dataSnapshot.child("profileUrl").getValue();
                 if (profile_Image.equals("null")) {
-                    try {
                         Bitmap Icon = BitmapFactory.decodeResource(getResources(), R.drawable.blank_profile);
                         profileImage.setImageBitmap(Icon);
-                    } catch (Exception e) {
-
-                    }
                 } else {
 
                     Picasso.get().load(profile_Image).into(profileImage);

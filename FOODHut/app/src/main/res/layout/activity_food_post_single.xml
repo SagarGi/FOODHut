@@ -431,7 +431,7 @@
                                 android:textSize="18dp"
                                 android:textStyle="bold"
                                 android:fontFamily="@font/itcavantbold"
-                                android:background="@color/default_status"
+                                android:background="?attr/buttonColor"
                                 android:textColor="?attr/textColorReverse"
                                 android:textAllCaps="false"
 

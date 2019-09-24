@@ -455,7 +455,7 @@ public class SettingActivity extends AppCompatActivity {
     }
 
     public AlertDialog.Builder buildDialog(Context context) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        AlertDialog.Builder builder = new AlertDialog.Builder(context, AlertDialog.THEME_HOLO_LIGHT);
         builder.setTitle("No Internet Connection");
         builder.setCancelable(true);
         builder.setMessage("You need to have Mobile data or Wifi to Access this.");

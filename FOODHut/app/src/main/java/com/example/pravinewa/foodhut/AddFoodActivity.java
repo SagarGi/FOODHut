@@ -2,6 +2,7 @@ package com.example.pravinewa.foodhut;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -264,17 +265,7 @@ public class AddFoodActivity extends AppCompatActivity {
                 //validation
                 if(itemName.isEmpty() && itemPrice.isEmpty() && itemStockno.isEmpty() && itemDescription.isEmpty() && category.equals("Category") && status.equals("Status") && itemEcpirydate.isEmpty())
                 {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(AddFoodActivity.this);
-                    builder.setMessage("Fields cannot be left empty!!")
-                            .setCancelable(false)
-                            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-
-                                }
-                            });
-
-                    AlertDialog alert = builder.create();
-                    alert.show();
+                    buildDialog(AddFoodActivity.this, "Fields cannot be left Empty").show();
                     return;
                 }
 
@@ -340,49 +331,21 @@ public class AddFoodActivity extends AppCompatActivity {
 
                 if(category.equals("Category"))
                 {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(AddFoodActivity.this);
-                    builder.setMessage("Select Category of your item!!")
-                            .setCancelable(false)
-                            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-
-                                }
-                            });
-
-                    AlertDialog alert = builder.create();
-                    alert.show();
+                    buildDialog(AddFoodActivity.this, "Please Select Category!!").show();
                     return;
                 }
 
                 if(status.equals("Status"))
                 {
 
-                    AlertDialog.Builder builder = new AlertDialog.Builder(AddFoodActivity.this);
-                    builder.setMessage("Select Status of your item!!")
-                            .setCancelable(false)
-                            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-
-                                }
-                            });
-                    AlertDialog alert = builder.create();
-                    alert.show();
+                    buildDialog(AddFoodActivity.this, "Please Select Status!!").show();
                     return;
 
                 }
 
                 if(imageUri == null)
                 {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(AddFoodActivity.this);
-                    builder.setMessage("Image is Required!!")
-                            .setCancelable(false)
-                            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-
-                                }
-                            });
-                    AlertDialog alert = builder.create();
-                    alert.show();
+                    buildDialog(AddFoodActivity.this, "Please Select Image!!").show();
                     return;
                 }
 
@@ -420,16 +383,7 @@ public class AddFoodActivity extends AppCompatActivity {
 
 
                  if (e_year <= c_year && e_month <= c_month && e_day <= c_day ) {
-                     AlertDialog.Builder builder = new AlertDialog.Builder(AddFoodActivity.this);
-                     builder.setMessage("Invalid Date!!")
-                             .setCancelable(false)
-                             .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                                 public void onClick(DialogInterface dialog, int id) {
-
-                                 }
-                             });
-                     AlertDialog alert = builder.create();
-                     alert.show();
+                     buildDialog(AddFoodActivity.this, "Invalid Date!!").show();
                      return;
 
 
@@ -851,6 +805,22 @@ public class AddFoodActivity extends AppCompatActivity {
             }
         });
     }
+
+    public android.app.AlertDialog.Builder buildDialog(Context context, String msg) {
+        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(context, android.app.AlertDialog.THEME_HOLO_LIGHT);
+        builder.setTitle("Empty Fields");
+        builder.setCancelable(true);
+        builder.setMessage(msg);
+
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        return builder;
+    }
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();
