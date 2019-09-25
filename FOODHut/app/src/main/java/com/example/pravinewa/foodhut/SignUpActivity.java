@@ -233,6 +233,7 @@ public class SignUpActivity extends AppCompatActivity {
         }
 
         progressBar.setVisibility(View.VISIBLE);
+        btnSignUp.setEnabled(false);
 
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -252,6 +253,7 @@ public class SignUpActivity extends AppCompatActivity {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
                                         progressBar.setVisibility(View.GONE);
+                                        btnSignUp.setEnabled(true);
                                         if (task.isSuccessful()) {
                                             progressBar.setVisibility(View.GONE);
                                             sendEmailVerification();
@@ -299,9 +301,9 @@ public class SignUpActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task task) {
                             if (task.isSuccessful()) {
                                 progressBar.setVisibility(View.GONE);
+                                Toast.makeText(SignUpActivity.this, "A verification email is sen to " +user.getEmail() +". Please verify to login!!", Toast.LENGTH_SHORT).show();
 
-                                Snackbar.make((CoordinatorLayout) findViewById(R.id.signUpLayout), "Verification email sent to " + user.getEmail(), Snackbar.LENGTH_LONG)
-                                        .setAction("Action", null).show();
+
                                 Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                                 startActivity(intent);
                                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
@@ -311,8 +313,8 @@ public class SignUpActivity extends AppCompatActivity {
                             } else {
                                 progressBar.setVisibility(View.GONE);
 
-                                Snackbar.make((CoordinatorLayout) findViewById(R.id.signUpLayout), "Failed to send verification email.", Snackbar.LENGTH_LONG)
-                                        .setAction("Action", null).show();
+                                Toast.makeText(SignUpActivity.this, "Failed to send verification email!!", Toast.LENGTH_SHORT).show();
+
                             }
                         }
                     });

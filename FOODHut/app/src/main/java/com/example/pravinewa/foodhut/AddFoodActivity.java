@@ -276,23 +276,10 @@ public class AddFoodActivity extends AppCompatActivity {
                     return;
                 }
 
-                if(itemName.length() > 12)
+                if(itemName.length() > 20)
                 {
                     etItemName.setError("Name too long!!");
                     etItemName.requestFocus();
-                    return;
-                }
-                if(itemPrice.length() > 3)
-                {
-                    etItemPrice.setError("Invalid Price!!");
-                    etItemPrice.requestFocus();
-                    return;
-                }
-
-                if(itemStockno.length() > 2)
-                {
-                    etStockNo.setError("Quantity cannot be more then 100!!");
-                    etStockNo.requestFocus();
                     return;
                 }
 
@@ -401,19 +388,21 @@ public class AddFoodActivity extends AppCompatActivity {
                         final long item_Price = Integer.parseInt(itemPrice);
 
                         progressBar.setVisibility(View.VISIBLE);
+                        btnPost.setEnabled(false);
                         final StorageReference filePath = mStorageRef.child(UUID.randomUUID().toString());
                         UploadTask uploadTask = filePath.putFile(imageUri);
 
                         uploadTask.addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(getApplicationContext(), "Uploading Photo Error", Toast.LENGTH_SHORT).show();
+//                                Toast.makeText(getApplicationContext(), "Uploading Photo Error", Toast.LENGTH_SHORT).show();
                             }
                         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                             @Override
                             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                Toast.makeText(getApplicationContext(), "Uploading Photo Succes", Toast.LENGTH_SHORT).show();
+//                                Toast.makeText(getApplicationContext(), "Uploading Photo Succes", Toast.LENGTH_SHORT).show();
                                 progressBar.setVisibility(View.GONE);
+                                btnPost.setEnabled(false);
 
                             }
                         });
@@ -471,7 +460,7 @@ public class AddFoodActivity extends AppCompatActivity {
                                                             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                                                             tvAttachImage.setText("Attach Image");
                                                             attachedImage = "attached";
-                                                            Toast.makeText(AddFoodActivity.this, "Data Stored Succesfully", Toast.LENGTH_SHORT).show();
+                                                            Toast.makeText(AddFoodActivity.this, "Food Posted Successfully!!", Toast.LENGTH_SHORT).show();
                                                             finish();
 
                                                         } else {
@@ -497,19 +486,21 @@ public class AddFoodActivity extends AppCompatActivity {
 
                     } else {
                         progressBar.setVisibility(View.VISIBLE);
+                        btnPost.setEnabled(false);
                         final StorageReference filePath = mStorageRef.child(UUID.randomUUID().toString());
                         UploadTask uploadTask = filePath.putFile(imageUri);
 
                         uploadTask.addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(getApplicationContext(), "Uploading Photo Error", Toast.LENGTH_SHORT).show();
+//                                Toast.makeText(getApplicationContext(), "Uploading Photo Error", Toast.LENGTH_SHORT).show();
                             }
                         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                             @Override
                             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                Toast.makeText(getApplicationContext(), "Uploading Photo Succes", Toast.LENGTH_SHORT).show();
+//                                Toast.makeText(getApplicationContext(), "Uploading Photo Succes", Toast.LENGTH_SHORT).show();
                                 progressBar.setVisibility(View.GONE);
+                                btnPost.setEnabled(true);
 
                             }
                         });
@@ -569,11 +560,11 @@ public class AddFoodActivity extends AppCompatActivity {
                                                             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                                                             tvAttachImage.setText("Attach Image");
                                                             attachedImage = "attached";
-                                                            Toast.makeText(AddFoodActivity.this, "Data Stored Succesfully", Toast.LENGTH_SHORT).show();
+                                                            Toast.makeText(AddFoodActivity.this, "Posted Successfully!!", Toast.LENGTH_SHORT).show();
                                                             finish();
 
                                                         } else {
-                                                            Toast.makeText(AddFoodActivity.this, "Data Registered Failed Inside", Toast.LENGTH_SHORT).show();
+//                                                            Toast.makeText(AddFoodActivity.this, "Data Registered Failed Inside", Toast.LENGTH_SHORT).show();
                                                         }
                                                     }
                                                 });

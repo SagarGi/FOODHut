@@ -528,7 +528,7 @@ public class HomeActivity extends AppCompatActivity {
                                 sinlePostIntent.putExtra("post_id", post_key);
                                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                                 startActivity(sinlePostIntent);
-                                HomeActivity.this.finish();
+//                                HomeActivity.this.finish();
                             } catch (Exception e) {
 
                             }

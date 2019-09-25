@@ -178,7 +178,15 @@ public class FoodPostSingleActivity extends AppCompatActivity {
         btnBuy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openConfirmDialog();
+                if (quantity > food_stock_no) {
+                    buildDialog(FoodPostSingleActivity.this, "Quantity limit exceeded!!").show();
+                    return;
+                }
+                else
+                {
+                    openConfirmDialog();
+
+                }
             }
         });
 
@@ -352,7 +360,8 @@ public class FoodPostSingleActivity extends AppCompatActivity {
                 if (quantity > food_stock_no) {
                     buildDialog(FoodPostSingleActivity.this, "Quantity limit exceeded!!").show();
                     return;
-                } else {
+                }
+                else {
                     Cart cart = new Cart(
                             food_name,
                             food_expiry_date,
@@ -621,7 +630,7 @@ public class FoodPostSingleActivity extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
         startActivity(intent);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-        finish();
+        FoodPostSingleActivity.this.finish();
     }
 
 }

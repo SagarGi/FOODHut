@@ -277,6 +277,8 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         progressBar.setVisibility(View.VISIBLE);
+        btnSigninLogin.setEnabled(false);
+        btnSignUpLogin.setEnabled(false);
 
 
         mAuth.signInWithEmailAndPassword(emailLogin,passwordLogin).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -288,6 +290,8 @@ public class LoginActivity extends AppCompatActivity {
 
                     if (user.isEmailVerified()) {
                         progressBar.setVisibility(View.GONE);
+                        btnSigninLogin.setEnabled(true);
+                        btnSignUpLogin.setEnabled(true);
                         Toast.makeText(LoginActivity.this, "Welcome", Toast.LENGTH_LONG).show();
                         Intent intent = new Intent(LoginActivity.this,HomeActivity.class);
 //                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -296,6 +300,8 @@ public class LoginActivity extends AppCompatActivity {
 
                     } else {
                         progressBar.setVisibility(View.GONE);
+                        btnSigninLogin.setEnabled(true);
+                        btnSignUpLogin.setEnabled(true);
 
                         Snackbar.make((CoordinatorLayout) findViewById(R.id.loginLayout), "Please Verify your Email First!!", Snackbar.LENGTH_LONG)
                                 .setAction("Action", null).show();
@@ -303,6 +309,8 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 } else {
                     progressBar.setVisibility(View.GONE);
+                    btnSigninLogin.setEnabled(true);
+                    btnSignUpLogin.setEnabled(true);
                     Snackbar.make((CoordinatorLayout) findViewById(R.id.loginLayout), "Authentication failed. Please check Email/Password!!", Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
 

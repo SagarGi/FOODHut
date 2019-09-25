@@ -72,6 +72,7 @@
                             android:hint="Item Price"
                             android:inputType="number"
                             android:paddingLeft="5dp"
+                            android:maxLength="3"
                             android:textColor="?attr/textColor"
                             android:textColorHint="?attr/someTextColor"
                             android:textSize="18sp" />
@@ -187,6 +188,7 @@
                         android:hint="Enter Stock No"
                         android:inputType="number"
                         android:paddingLeft="5dp"
+                        android:maxLength="2"
                         android:textColor="?attr/textColor"
                         android:textColorHint="?attr/someTextColor"
                         android:textSize="18sp" />

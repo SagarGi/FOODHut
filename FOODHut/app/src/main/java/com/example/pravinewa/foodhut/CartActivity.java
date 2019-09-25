@@ -191,7 +191,7 @@ public class CartActivity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
                 startActivity(intent);
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-                finish();
+                CartActivity.this.finish();
             }
         });
 
@@ -318,6 +318,7 @@ public class CartActivity extends AppCompatActivity {
                             deleteDialogCart.setCancelable(false);
                             deleteDialogCart.setArguments(bundle);
                             deleteDialogCart.show(getSupportFragmentManager(), "dialog");
+
                         } catch (Exception e) {
 
                         }
@@ -408,7 +409,7 @@ public class CartActivity extends AppCompatActivity {
 //                                    String userAddress = userReference.child("address").toString();
 
                                             final DatabaseReference databaseReference2 = FirebaseDatabase.getInstance().getReference("Cart").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(pKey);
-                                            databaseReference2.addValueEventListener(new ValueEventListener() {
+                                            databaseReference2.addListenerForSingleValueEvent(new ValueEventListener() {
                                                 @Override
                                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                                     try {
@@ -464,6 +465,7 @@ public class CartActivity extends AppCompatActivity {
                                                             });
                                                             databaseReference2.removeValue();
                                                             cartlist.clear();
+                                                            checkOut.setText("Checkout (Rs. 00.00)");
 
                                                         } else if (shipped == "newAddress") {
 
@@ -512,6 +514,7 @@ public class CartActivity extends AppCompatActivity {
                                                                 });
                                                                 databaseReference2.removeValue();
                                                                 cartlist.clear();
+                                                                checkOut.setText("Checkout (Rs. 00.00)");
                                                             }
                                                         }
 
@@ -628,6 +631,6 @@ public class CartActivity extends AppCompatActivity {
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         cartlist.clear();
         notFounded.clear();
-        finish();
+        CartActivity.this.finish();
     }
 }

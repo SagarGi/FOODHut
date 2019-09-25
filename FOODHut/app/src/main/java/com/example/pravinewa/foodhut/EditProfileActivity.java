@@ -208,6 +208,7 @@ public class EditProfileActivity extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     progressBar.setVisibility(View.GONE);
+                                    saveProfile.setEnabled(true);
                                     if (task.isSuccessful()) {
 
                                         Toast.makeText(getApplicationContext(),"Successfully Updated",Toast.LENGTH_SHORT).show();
@@ -274,6 +275,7 @@ public class EditProfileActivity extends AppCompatActivity {
     //update profile method
     public void uploadProfile() {
         progressBar.setVisibility(View.VISIBLE);
+        saveProfile.setEnabled(false);
 
         databaseReference = firebaseDatabase.getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
 

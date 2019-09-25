@@ -326,11 +326,13 @@ public class ItemUpdateActivity extends AppCompatActivity {
                 if(updated_name.equals(food_name ) && long_price == food_price && long_stock == food_stock &&  updated_category.equals(food_category )&&
                         updated_status.equals(food_status ) && updated_Descripton.equals(food_description  )&& updated_expirydate.equals(food_expiry_date))
                 {
+                    btnUpdateitem.setEnabled(false);
                     android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(ItemUpdateActivity.this);
                     builder.setMessage("Nothing Changed!!")
                             .setCancelable(false)
                             .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
+                                    btnUpdateitem.setEnabled(true);
 
                                 }
                             });
@@ -344,6 +346,7 @@ public class ItemUpdateActivity extends AppCompatActivity {
                 {
                     if(updated_status.equals("Donate"))
                     {
+                        btnUpdateitem.setEnabled(false);
                         Food food = new Food(updated_name, updated_Descripton, 0, updated_category, updated_status, updated_expirydate, food_image, food_currrent_date,long_stock, user_id);
                         FirebaseDatabase.getInstance().getReference("Post")
                                 .child(post_key)
@@ -358,6 +361,7 @@ public class ItemUpdateActivity extends AppCompatActivity {
 
                     else
                     {
+                        btnUpdateitem.setEnabled(false);
 
                         Food food = new Food(updated_name, updated_Descripton, long_price , updated_category, updated_status, updated_expirydate, food_image, food_currrent_date, long_stock, user_id);
                         FirebaseDatabase.getInstance().getReference("Post")
