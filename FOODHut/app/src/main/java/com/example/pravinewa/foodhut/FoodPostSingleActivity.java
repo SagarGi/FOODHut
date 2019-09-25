@@ -1,5 +1,7 @@
 package com.example.pravinewa.foodhut;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -252,6 +254,7 @@ public class FoodPostSingleActivity extends AppCompatActivity {
                             public void onClick(View view) {
                                 try {
                                     vibrator.vibrate(20);
+
                                     Intent sinlePostIntent = new Intent(FoodPostSingleActivity.this, ItemUpdateActivity.class);
                                     sinlePostIntent.putExtra("update_item", post_key);
                                     startActivity(sinlePostIntent);
@@ -346,30 +349,35 @@ public class FoodPostSingleActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 vibrator.vibrate(20);
-                Cart cart = new Cart(
+                if (quantity > food_stock_no) {
+                    buildDialog(FoodPostSingleActivity.this, "Quantity limit exceeded!!").show();
+                    return;
+                } else {
+                    Cart cart = new Cart(
                             food_name,
                             food_expiry_date,
                             food_image,
                             food_price,
                             quantity
                     );
-                try {
-                    FirebaseDatabase.getInstance().getReference("Cart")
-                            .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                            .child(post_key)
-                            .setValue(cart).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            Snackbar.make((CoordinatorLayout) findViewById(R.id.foodPostLayout), quantity + " item added to Cart!!", Snackbar.LENGTH_LONG)
-                                    .setAction("Action", null).show();
+                    try {
+                        FirebaseDatabase.getInstance().getReference("Cart")
+                                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                .child(post_key)
+                                .setValue(cart).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                Snackbar.make((CoordinatorLayout) findViewById(R.id.foodPostLayout), quantity + " item added to Cart!!", Snackbar.LENGTH_LONG)
+                                        .setAction("Action", null).show();
 
-                        }
+                            }
 
-                    });
-                }catch (Exception e){
+                        });
+                    } catch (Exception e) {
 
+                    }
                 }
-                }
+            }
             });
 
 
@@ -459,24 +467,6 @@ public class FoodPostSingleActivity extends AppCompatActivity {
 
                                 try {
 
-                                                        FirebaseDatabase.getInstance().getReference("Post").child(post_key).child("stockNo").setValue(food_stock_no-quantity);
-                                                        HistoryOrder historyOrder = new HistoryOrder(
-                                                                food_name,
-                                                                food_image,
-                                                                food_price,
-                                                                quantity,
-                                                                (food_price*quantity)
-                                                        );
-                                                        String history_id = FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).push().getKey();
-                                                        FirebaseDatabase.getInstance().getReference("History")
-                                                                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                                                                .child(history_id)
-                                                                .setValue(historyOrder).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                            @Override
-                                                            public void onComplete(@NonNull Task<Void> task) {
-                                                                Toast.makeText(getApplicationContext(),"Checkout Successfully",Toast.LENGTH_SHORT).show();
-                                                            }
-                                                        });
 
                                                         //owner info
 
@@ -486,6 +476,25 @@ public class FoodPostSingleActivity extends AppCompatActivity {
                                                         final String order_id = FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).push().getKey();
 
                                                         if(shipped == "currentAddress"){
+                                                            FirebaseDatabase.getInstance().getReference("Post").child(post_key).child("stockNo").setValue(food_stock_no-quantity);
+                                                            HistoryOrder historyOrder = new HistoryOrder(
+                                                                    food_name,
+                                                                    food_image,
+                                                                    food_price,
+                                                                    quantity,
+                                                                    (food_price*quantity)
+                                                            );
+                                                            String history_id = FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).push().getKey();
+                                                            FirebaseDatabase.getInstance().getReference("History")
+                                                                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                                                    .child(history_id)
+                                                                    .setValue(historyOrder).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                @Override
+                                                                public void onComplete(@NonNull Task<Void> task) {
+                                                                    Toast.makeText(getApplicationContext(),"Checkout Successfully",Toast.LENGTH_SHORT).show();
+                                                                }
+                                                            });
+
                                                             IntrestedItem intrested = new IntrestedItem(currentUserName, currentuserContact, food_name, date, quantity,(food_price*quantity),food_price,currentUserAddress);
                                                             FirebaseDatabase.getInstance().getReference("Order")
                                                                     .child(user_id)
@@ -499,19 +508,44 @@ public class FoodPostSingleActivity extends AppCompatActivity {
                                                                 }
                                                             });
 
-                                                        }else if(shipped == "newAddress"){
-                                                            IntrestedItem intrested = new IntrestedItem(currentUserName, currentuserContact, food_name, date, quantity,(food_price*quantity),food_price,newAddresss);
-                                                            FirebaseDatabase.getInstance().getReference("Order")
-                                                                    .child(user_id)
-                                                                    .child(order_id)
-                                                                    .setValue(intrested).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                                @Override
-                                                                public void onComplete(@NonNull Task<Void> task) {
-                                                                    Toast.makeText(getApplicationContext(), "Your Item Has Been Confirmed!!!", Toast.LENGTH_SHORT).show();
-                                                                    alertDialog.dismiss();
+                                                        }else if(shipped == "newAddress") {
+                                                            if (newAddresss.isEmpty()) {
+                                                                newAddressText.setError("Please enter new Address!!");
+                                                                newAddressText.requestFocus();
+                                                                return;
+                                                            } else {
+                                                                FirebaseDatabase.getInstance().getReference("Post").child(post_key).child("stockNo").setValue(food_stock_no-quantity);
+                                                                HistoryOrder historyOrder = new HistoryOrder(
+                                                                        food_name,
+                                                                        food_image,
+                                                                        food_price,
+                                                                        quantity,
+                                                                        (food_price*quantity)
+                                                                );
+                                                                String history_id = FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).push().getKey();
+                                                                FirebaseDatabase.getInstance().getReference("History")
+                                                                        .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                                                        .child(history_id)
+                                                                        .setValue(historyOrder).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                    @Override
+                                                                    public void onComplete(@NonNull Task<Void> task) {
+                                                                        Toast.makeText(getApplicationContext(),"Checkout Successfully",Toast.LENGTH_SHORT).show();
+                                                                    }
+                                                                });
 
-                                                                }
-                                                            });
+                                                                IntrestedItem intrested = new IntrestedItem(currentUserName, currentuserContact, food_name, date, quantity, (food_price * quantity), food_price, newAddresss);
+                                                                FirebaseDatabase.getInstance().getReference("Order")
+                                                                        .child(user_id)
+                                                                        .child(order_id)
+                                                                        .setValue(intrested).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                    @Override
+                                                                    public void onComplete(@NonNull Task<Void> task) {
+                                                                        Toast.makeText(getApplicationContext(), "Your Item Has Been Confirmed!!!", Toast.LENGTH_SHORT).show();
+                                                                        alertDialog.dismiss();
+
+                                                                    }
+                                                                });
+                                                            }
                                                         }
 
 
@@ -564,6 +598,21 @@ public class FoodPostSingleActivity extends AppCompatActivity {
                 }
                 break;
         }
+    }
+
+    public android.app.AlertDialog.Builder buildDialog(Context context, String msg) {
+        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(context, android.app.AlertDialog.THEME_HOLO_LIGHT);
+        builder.setTitle("Empty Fields");
+        builder.setCancelable(true);
+        builder.setMessage(msg);
+
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        return builder;
     }
 
     @Override

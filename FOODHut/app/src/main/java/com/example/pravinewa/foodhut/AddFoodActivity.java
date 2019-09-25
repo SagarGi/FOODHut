@@ -282,17 +282,17 @@ public class AddFoodActivity extends AppCompatActivity {
                     etItemName.requestFocus();
                     return;
                 }
-
-                if(itemPrice.isEmpty())
-                {
-                    etItemPrice.setError("Price Required!!");
-                    etItemPrice.requestFocus();
-                    return;
-                }
                 if(itemPrice.length() > 3)
                 {
                     etItemPrice.setError("Invalid Price!!");
                     etItemPrice.requestFocus();
+                    return;
+                }
+
+                if(itemStockno.length() > 2)
+                {
+                    etStockNo.setError("Quantity cannot be more then 100!!");
+                    etStockNo.requestFocus();
                     return;
                 }
 
@@ -356,7 +356,6 @@ public class AddFoodActivity extends AppCompatActivity {
                 final String saveCurrentDate = currentDate.format(calendar.getTime());
 
                 //date validation
-                final long item_Price = Integer.parseInt(itemPrice);
                 final long item_Stockno = Integer.parseInt(itemStockno);
 
 
@@ -392,6 +391,15 @@ public class AddFoodActivity extends AppCompatActivity {
                     final String uid = mUser.getUid();
 
                     if (status.equals("For Sale")) {
+                        if(itemPrice.isEmpty())
+                        {
+                            etItemPrice.setError("Enter item price!!");
+                            etItemPrice.requestFocus();
+                            return;
+                        }
+
+                        final long item_Price = Integer.parseInt(itemPrice);
+
                         progressBar.setVisibility(View.VISIBLE);
                         final StorageReference filePath = mStorageRef.child(UUID.randomUUID().toString());
                         UploadTask uploadTask = filePath.putFile(imageUri);

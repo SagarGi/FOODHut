@@ -10,13 +10,16 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.GridLayout;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -24,8 +27,11 @@ import android.widget.Toast;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -40,6 +46,7 @@ public class InCompleteFragment extends Fragment {
     private RecyclerView recyclerView;
     FirebaseRecyclerOptions<UserPost> recyclerOptions;
     FirebaseRecyclerAdapter<UserPost, UserPostViewHolder> recyclerAdapter;
+    CoordinatorLayout profileLayout;
 
     Vibrator vibrator;
     public InCompleteFragment() {
@@ -84,9 +91,49 @@ public class InCompleteFragment extends Fragment {
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent sinlePostIntent = new Intent(getActivity(), FoodPostSingleActivity.class);
-                        sinlePostIntent.putExtra("post_id", post_key);
-                        startActivity(sinlePostIntent);
+                        FirebaseDatabase.getInstance().getReference("Post").addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                if(dataSnapshot.hasChild(post_key))
+                                {
+                                    Intent sinlePostIntent = new Intent(getActivity(), FoodPostSingleActivity.class);
+                                    sinlePostIntent.putExtra("post_id", post_key);
+                                    startActivity(sinlePostIntent);
+                                }
+                                else
+                                {
+                                    try {
+
+                                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                                        builder.setMessage("Looks like your item is expired!!")
+                                                .setCancelable(false)
+                                                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                                    public void onClick(DialogInterface dialog, int id) {
+                                                        DatabaseReference postUser = FirebaseDatabase.getInstance().getReference("UserPost").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(post_key);
+                                                        postUser.removeValue();
+                                                        Snackbar.make((CoordinatorLayout) getActivity().findViewById(R.id.profileLayout), "Item Deleted Successfully.", Snackbar.LENGTH_LONG)
+                                                                .setAction("Action", null).show();
+
+
+                                                    }
+                                                });
+
+                                        AlertDialog alert = builder.create();
+                                        alert.show();
+                                    } catch (Exception e) {
+
+                                    }
+                                }
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+
+
                     }
                 });
 

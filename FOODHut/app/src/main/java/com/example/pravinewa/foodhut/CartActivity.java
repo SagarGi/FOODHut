@@ -468,7 +468,7 @@ public class CartActivity extends AppCompatActivity {
                                                         } else if (shipped == "newAddress") {
 
                                                             if (newAddresss.isEmpty()) {
-                                                                newAddressText.setError("Price Required!!");
+                                                                newAddressText.setError("Please enter new Address !!");
                                                                 newAddressText.requestFocus();
                                                                 return;
                                                             } else {

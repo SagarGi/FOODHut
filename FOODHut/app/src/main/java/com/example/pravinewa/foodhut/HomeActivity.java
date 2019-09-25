@@ -209,7 +209,7 @@ public class HomeActivity extends AppCompatActivity {
                     case 1:
                         try {
                             recyclerOptions = new FirebaseRecyclerOptions.Builder<Food>()
-                                    .setQuery(databaseReference.orderByChild("itemExpiryDate").startAt("2019-08-27").endAt("2030-08-27"), Food.class).build();
+                                    .setQuery(databaseReference.orderByChild("itemExpiryDate").startAt("2019-08-27").endAt("2040-08-27"), Food.class).build();
                             viewPost();
                             Snackbar.make((CoordinatorLayout) findViewById(R.id.homeView), "Sort by Expiry Date", Snackbar.LENGTH_LONG)
                                     .setAction("Action", null).show();
@@ -446,7 +446,7 @@ public class HomeActivity extends AppCompatActivity {
 
                 // delete automatically  after 5 days
                 try {
-                    int delete_day = e_day + 5;
+                    int delete_day = e_day + 1;
                     if (e_year == c_year && e_month == c_month && delete_day == c_day) {
 //                    DatabaseReference postDeleteCart = FirebaseDatabase.getInstance().getReference("Cart").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(post_key);
                         DatabaseReference postDeletePost = FirebaseDatabase.getInstance().getReference("Post").child(post_key);
@@ -463,7 +463,25 @@ public class HomeActivity extends AppCompatActivity {
 
                 }
 
+                long quantity = model.getStockNo();
+                try
+                {
+                    if(quantity <= 0)
+                    {
+                        DatabaseReference postDeletePost = FirebaseDatabase.getInstance().getReference("Post").child(post_key);
+                        DatabaseReference postDeleteUserPost = FirebaseDatabase.getInstance().getReference("UserPost").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(post_key);
+                        DatabaseReference postDeleteAdminReport = FirebaseDatabase.getInstance().getReference("AdminReport").child(post_key);
+                        postDeletePost.removeValue();
+                        postDeleteAdminReport.removeValue();
+                        postDeleteUserPost.removeValue();
 
+
+                    }
+                }
+                catch (NullPointerException e)
+                {
+
+                }
                 String food_category = model.getItemCategory();
 
                 if (foodStatus.equals("For Sale")) {
