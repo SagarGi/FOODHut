@@ -353,12 +353,12 @@ public class SettingActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     if (password == "Invisible") {
                         new_password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                        new_password.setSelection(old_password.length());
+                        new_password.setSelection(new_password.length());
                         password = "Visible";
                         show_password_new.setImageResource(R.drawable.visible_eye_white);
                     } else if (password == "Visible") {
                         new_password.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                        new_password.setSelection(old_password.length());
+                        new_password.setSelection(new_password.length());
                         password = "Invisible";
                         show_password_new.setImageResource(R.drawable.invisible_eye_white);
                     }
@@ -373,12 +373,12 @@ public class SettingActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     if (password == "Invisible") {
                         new_password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                        new_password.setSelection(old_password.length());
+                        new_password.setSelection(new_password.length());
                         password = "Visible";
                         show_password_new.setImageResource(R.drawable.visible_eye_black);
                     } else if (password == "Visible") {
                         new_password.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                        new_password.setSelection(old_password.length());
+                        new_password.setSelection(new_password.length());
                         password = "Invisible";
                         show_password_new.setImageResource(R.drawable.invisible_eye_black);
                     }
